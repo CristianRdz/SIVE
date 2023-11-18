@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { Button, Card, Icon, Input } from "react-native-elements";
+import React, { useContext, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Toast from "react-native-toast-message";
-import { recoverPassword } from "../../services/auth/usuarioService";
-import { Colors } from "../../utils/colors";
+import Loading from "../common/Loading";
+import { Card, TextInput, useTheme } from "react-native-paper";
+import { Button, Icon, Image } from "react-native-elements";
 
 export default function RecuperarForm(props) {
+  const { colors } = useTheme();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -50,34 +51,39 @@ export default function RecuperarForm(props) {
   });
 
   return (
-    <Card containerStyle={styles.viewContent}>
-      <Card.Title style={styles.title}>Recuperar Contraseña</Card.Title>
-      <Input
-        placeholder="Correo electrónico"
+    <Card style={styles.viewContent}>
+      <Image
+        source={"http://129.146.111.32:3000/65518237004b5d61506f7057"}
+        style={styles.logo}
+      />
+      
+      <TextInput
+        mode="outlined"
+        label="Correo electrónico"
         containerStyle={styles.input}
-        onChangeText={formik.handleChange("email")}
-        value={formik.values.email}
         rightIcon={
-          <Icon type="font-awesome-5" name="envelope" iconStyle={styles.icon} />
+          <Icon type="material-community" name="at" iconStyle={styles.icon} />
         }
-        errorMessage={formik.errors.email}
+        onChangeText={(text) => formik.setFieldValue("username", text)}
+        errorMessage={formik.errors.username}
       />
       <Button
-        title="Recuperar Contraseña"
+        text
         icon={
           <Icon
-            type="font-awesome-5"
-            name="key"
-            size={20}
-            color="white"
-            style={{ marginRight: 10 }}
+            type="material-community"
+            name="lock-reset"
+            color={colors.surface}
+            style={styles.icon}
           />
         }
-        containerStyle={styles.btnContainer}
-        buttonStyle={styles.btn}
+        titleStyle={{ color: colors.surface }}
+        title={"Recuperar contraseña"}
+        containerStyle={{ ...styles.btnContainer, backgroundColor: colors.primary }}
+        buttonStyle={{ backgroundColor: colors.primary }}
         onPress={formik.handleSubmit}
-        loading={formik.isSubmitting}
       />
+
     </Card>
   );
 }
@@ -91,11 +97,9 @@ const styles = StyleSheet.create({
   input: {
     width: "100%",
     marginTop: 15,
-    backgroundColor: "#fff",
     borderRadius: 10,
   },
   icon: {
-    color: "#c1c1c1",
     marginRight: 10,
   },
   btnContainer: {
@@ -104,16 +108,28 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 10,
   },
-  btn: {
-    backgroundColor: Colors.primary,
+
+  divider: {
+    margin: 40,
   },
   title: {
-    color: "#fff",
+    marginTop: 20,
     textAlign: "center",
     fontSize: 20,
     fontWeight: "bold",
   },
-  icon: {
-    color: "#c1c1c1",
+  logo: {
+    resizeMode: "contain",
+    width: "100%",
+    height: 100,
+    alignSelf: "center",
+    marginVertical: 20,
+  },
+  registerLink: {
+    //bold
+    fontWeight: "bold",
+    textAlign: "center",
+    marginVertical: 10,
+    fontSize: 16,
   },
 });

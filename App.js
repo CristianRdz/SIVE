@@ -5,6 +5,7 @@ import { Card, DefaultTheme, PaperProvider, useTheme } from 'react-native-paper'
 import Toast from 'react-native-toast-message';
 import Main from './Main';
 import { AuthContext, AuthProvider } from './src/services/auth/context/AuthContext';
+import 'react-native-gesture-handler';
 
 export default function App() {
   return (
@@ -18,4 +19,6 @@ const styles = StyleSheet.create({
     height: 60, width: '95%', justifyContent: 'center', alignItems: 'center', 
     borderWidth: 2, borderRadius: 10, marginVertical: 5, padding: 5
   }
+  //reference all elements of text in the app
+
 })

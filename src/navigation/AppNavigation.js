@@ -5,6 +5,8 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import AuthStack from "./AuthStack";
 import { useTheme } from "react-native-paper";
 import { AuthContext } from "../services/auth/context/AuthContext";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import Ajustes from "../screens/Ajustes";
 const Tab = createMaterialBottomTabNavigator();
 
 export default function AppNavigation() {
@@ -31,6 +33,12 @@ export default function AppNavigation() {
           name="login"
           component={AuthStack}
           options={{ title: "Perfil" }}
+        />
+
+        <Tab.Screen
+          name="ajustes"
+          component={Ajustes}
+          options={{ title: "Ajustes" }}
         />
       </>
     </Tab.Navigator>
@@ -71,6 +79,9 @@ function iconos(route, color, size) {
   }
   if (route.name === "cargando") {
     name = "spinner";
+  }
+  if (route.name === "ajustes") {
+    name = "cog";
   }
 
   return (

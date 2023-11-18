@@ -6,16 +6,11 @@ import Toast from "react-native-toast-message";
 import Loading from "../common/Loading";
 import { AuthContext } from "../../services/auth/context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
-import { Colors } from "../../utils/colors";
 import { Card, TextInput, useTheme } from "react-native-paper";
-import { Button, Icon } from "react-native-elements";
-import { Dropdown } from "react-native-element-dropdown";
-import { temas , tamanios } from "../../data/themes";
-import DropdownComponent from "../common/DropdownComponent";
-import { roles } from "../../data/roles";
+import { Button, Icon, Image } from "react-native-elements";
 
 export default function LoginForm() {
-  const {setTheme, theme} = useContext(AuthContext);
+  const { login , textSize} = useContext(AuthContext);
   const { colors } = useTheme();
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
@@ -50,7 +45,11 @@ export default function LoginForm() {
   };
   return (
     <Card style={styles.viewContent}>
-      <DropdownComponent data = {temas} nombre = "nombre" id = "id" setValueOut = {setTheme} />
+      <Image
+        source={"http://129.146.111.32:3000/65518237004b5d61506f7057"}
+        style={styles.logo}
+      />
+      
       <TextInput
         mode="outlined"
         label="Correo electrónico"
@@ -101,14 +100,6 @@ export default function LoginForm() {
       >
         ¿Olvidaste tu contraseña?
       </Text>
-      <Text
-        style={{ ...styles.registerLink, color: colors.primary }}
-        onPress={() => {
-          navigation.navigate("registerS");
-        }}
-      >
-        ¿No tienes cuenta? Registrate
-      </Text>
 
     </Card>
   );
@@ -141,7 +132,7 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 20,
     textAlign: "center",
-    fontSize: 20,
+    fontSize: "medium",
     fontWeight: "bold",
   },
   logo: {
@@ -156,6 +147,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginVertical: 10,
-    fontSize: 16,
+    fontSize: "large",
   },
 });

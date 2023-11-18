@@ -16,9 +16,6 @@ export default function Main() {
   const { colors } = useTheme();
   const { textSize, theme } = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log(theme);
-    }, [theme]);
   const toastConfig = {
     success: (props) => (
       <Card
