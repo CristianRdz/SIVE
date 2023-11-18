@@ -21,29 +21,52 @@ export default function Main() {
       <Card
         style={{
           ...styles.toastBase,
-          backgroundColor: colors.background,
-          borderColor: colors.successContainer,
+          backgroundColor: useTheme().colors.background,
+          borderColor: useTheme().colors.primary,
         }}
       >
-        <Text style={{ fontSize: 15, fontWeight: "400" , color: colors.text}}>{props.text1}</Text>
-        <Text style={{ fontSize: 13, color: colors.text }}>{props.text2}</Text>
+        <Text
+          style={{
+            fontSize: 15,
+            fontWeight: "400",
+            color: useTheme().colors.primary,
+          }}
+        >
+          {" "}
+          {props.text1}
+        </Text>
+        <Text style={{ fontSize: 13, color: useTheme().colors.primary }}>
+          {props.text2}
+        </Text>
       </Card>
     ),
     error: (props) => (
       <Card
         style={{
           ...styles.toastBase,
-          backgroundColor: colors.background,
-          borderColor: colors.errorContainer,
+          backgroundColor: useTheme().colors.background,
+          borderColor: useTheme().colors.errorContainer,
         }}
       >
-        <Text style={{ fontSize: 15, fontWeight: "400" , color: colors.text}}>{props.text1}</Text>
-        <Text style={{ fontSize: 13 , color: colors.text}}>{props.text2}</Text>
+        <Text
+          style={{
+            fontSize: 15,
+            fontWeight: "400",
+            color: useTheme().colors.primary,
+          }}
+        >
+          {props.text1}
+        </Text>
+        <Text style={{ fontSize: 13, color: useTheme().colors.primary }}>
+          {props.text2}
+        </Text>
       </Card>
     ),
   };
   return (
-    <PaperProvider theme={theme == "system" ? "" : theme == "dark" ? DarkTheme : LightTheme}>
+    <PaperProvider
+      theme={theme == "system" ? "" : theme == "dark" ? DarkTheme : LightTheme}
+    >
       <StatusBar style="auto" />
       <NavigationContainer>
         <AppNavigation />
@@ -53,4 +76,9 @@ export default function Main() {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  toastBase: {
+    height: 60, width: '95%', justifyContent: 'center', alignItems: 'center', 
+    borderWidth: 2, borderRadius: 10, marginVertical: 5, padding: 5
+  }
+})
