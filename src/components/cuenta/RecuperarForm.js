@@ -65,8 +65,8 @@ export default function RecuperarForm(props) {
         rightIcon={
           <Icon type="material-community" name="at" iconStyle={styles.icon} />
         }
-        onChangeText={(text) => formik.setFieldValue("username", text)}
-        errorMessage={formik.errors.username}
+        onChangeText={(text) => formik.setFieldValue("email", text)}
+        error={formik.errors.email ? true : false}
       />
       <Button
         text

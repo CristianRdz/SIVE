@@ -58,7 +58,7 @@ export default function LoginForm() {
           <Icon type="material-community" name="at" iconStyle={styles.icon} />
         }
         onChangeText={(text) => formik.setFieldValue("username", text)}
-        errorMessage={formik.errors.username}
+        error={formik.errors.username ? true : false}
       />
       <TextInput
         mode="outlined"
@@ -74,7 +74,7 @@ export default function LoginForm() {
           />
         }
         onChangeText={(text) => formik.setFieldValue("password", text)}
-        errorMessage={formik.errors.password}
+        error={formik.errors.password ? true : false}
       />
       <Button
         text

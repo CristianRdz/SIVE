@@ -99,6 +99,18 @@ export const AuthProvider = ({ children }) => {
      checkTheme();
    }, [theme]);
 
+   useEffect( () => {
+    const checkTextSize = async () => {
+     if (textSize.valor) {
+       setTextSize(textSize.valor);
+       await AsyncStorage.setItem("textSize", textSize.valor);
+     }
+     }
+     checkTextSize();
+   }
+    , [textSize]);
+    
+
   return (
     <AuthContext.Provider
       value={{
