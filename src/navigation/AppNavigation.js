@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon } from "react-native-elements";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import AuthStack from "./AuthStack";
 import { useTheme } from "react-native-paper";
 import { AuthContext } from "../services/auth/context/AuthContext";
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import Ajustes from "../screens/Ajustes";
+import ClientStack from "./cliente/ClienteStack";
+import AdminStack from "./admin/AdminStack";  
 const Tab = createMaterialBottomTabNavigator();
 
 export default function AppNavigation() {
   const { colors } = useTheme();
-  const { userInfo } = useContext(AuthContext);
+  const { userInfo, splashLoading } = useContext(AuthContext);
   return (
     <Tab.Navigator
       activeColor={colors.primary}
@@ -28,19 +28,42 @@ export default function AppNavigation() {
         tabBarIcon: ({ color, size }) => iconos(route, color, size),
       })}
     >
-      <>
+      {splashLoading ? (
         <Tab.Screen
-          name="login"
-          component={AuthStack}
-          options={{ title: "Perfil" }}
+          name="cargando"
+          options={{ title: "Cargando" }}
+          component={SplashScreen}
         />
-
-        <Tab.Screen
-          name="ajustes"
-          component={Ajustes}
-          options={{ title: "Ajustes" }}
-        />
-      </>
+      ) : userInfo.token && userInfo.role.name === "admin" ? (
+        <>
+          <Tab.Screen
+            name="inicioAdmin"
+            options={{ title: "Inicio" }}
+            component={AdminStack}  
+          />
+        </>
+      ) : userInfo.token && userInfo.role.name === "cliente" ? (
+        <>
+          <Tab.Screen
+            name="inicioCliente"
+            options={{ title: "Inicio" }}
+            component={ClientStack}
+          />
+        </>
+      ) : (
+        <>
+          <Tab.Screen
+            name="login"
+            options={{ title: "Iniciar Sesión" }}
+            component={AuthStack}
+          />
+        </>
+      )}
+      <Tab.Screen
+        name="ajustes"
+        options={{ title: "Ajustes" }}
+        component={Ajustes}
+      />
     </Tab.Navigator>
   );
 }

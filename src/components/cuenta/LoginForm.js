@@ -10,7 +10,7 @@ import { Card, TextInput, useTheme } from "react-native-paper";
 import { Button, Icon, Image } from "react-native-elements";
 
 export default function LoginForm() {
-  const { login , textSize} = useContext(AuthContext);
+  const { login, textSize } = useContext(AuthContext);
   const { colors } = useTheme();
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
@@ -49,13 +49,22 @@ export default function LoginForm() {
         source={"http://129.146.111.32:3000/65518237004b5d61506f7057"}
         style={styles.logo}
       />
-      
+
       <TextInput
         mode="outlined"
         label="Correo electrónico"
         containerStyle={styles.input}
-        rightIcon={
-          <Icon type="material-community" name="at" iconStyle={styles.icon} />
+        right={
+          <TextInput.Icon
+            icon={() => (
+              <Icon
+                type="material-community"
+                name="at"
+                color={colors.primary}
+                iconStyle={styles.icon}
+              />
+            )}
+          />
         }
         onChangeText={(text) => formik.setFieldValue("username", text)}
         error={formik.errors.username ? true : false}
@@ -65,12 +74,17 @@ export default function LoginForm() {
         label="Contraseña"
         containerStyle={styles.input}
         secureTextEntry={showPassword ? false : true}
-        rightIcon={
-          <Icon
-            type="font-awesome-5"
-            name={showPassword ? "eye-slash" : "eye"}
-            iconStyle={styles.icon}
-            onPress={showHidePass}
+        right={
+          <TextInput.Icon
+            icon={() => (
+              <Icon
+                type="material-community"
+                name={showPassword ? "eye-off-outline" : "eye-outline"}
+                color={colors.primary}
+                iconStyle={styles.icon}
+                onPress={showHidePass}
+              />
+            )}
           />
         }
         onChangeText={(text) => formik.setFieldValue("password", text)}
@@ -88,7 +102,10 @@ export default function LoginForm() {
         }
         titleStyle={{ color: colors.surface }}
         title={"Iniciar Sesión"}
-        containerStyle={{ ...styles.btnContainer, backgroundColor: colors.primary }}
+        containerStyle={{
+          ...styles.btnContainer,
+          backgroundColor: colors.primary,
+        }}
         buttonStyle={{ backgroundColor: colors.primary }}
         onPress={formik.handleSubmit}
       />
@@ -100,7 +117,6 @@ export default function LoginForm() {
       >
         ¿Olvidaste tu contraseña?
       </Text>
-
     </Card>
   );
 }

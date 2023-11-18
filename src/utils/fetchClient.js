@@ -40,7 +40,7 @@ export async function fetchClient(ruta, metodo, datos) {
     const response = await fetch(url, params);
     if (response.status >= 200 && response.status < 300) {
       const result = await response.json();
-      return result.data;
+      return result;
     } else if (response.status === 401) {
       AsyncStorage.removeItem("userInfo");
       return null;

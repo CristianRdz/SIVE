@@ -62,8 +62,17 @@ export default function RecuperarForm(props) {
         mode="outlined"
         label="Correo electrónico"
         containerStyle={styles.input}
-        rightIcon={
-          <Icon type="material-community" name="at" iconStyle={styles.icon} />
+        right={
+          <TextInput.Icon
+            icon={() => (
+              <Icon
+                type="material-community"
+                name="at"
+                color={colors.primary}
+                iconStyle={styles.icon}
+              />
+            )}
+          />
         }
         onChangeText={(text) => formik.setFieldValue("email", text)}
         error={formik.errors.email ? true : false}

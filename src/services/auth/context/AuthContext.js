@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
-import { fetchClient } from "../../../utils/fetchClient";
 import { API_URL } from "../../../utils/constants";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 export const AuthContext = createContext();
@@ -15,11 +14,11 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(true);
     axios
       .post(`${API_URL}/api/auth/login/`, {
-        correo: username,
-        contrasena: password,
+        email: username,
+        password: password,
       })
       .then((res) => {
-        let userInfo = res.data.data;
+        let userInfo = res.data;
         setUserInfo(userInfo);
         AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
         setIsLoading(false);
@@ -69,12 +68,7 @@ export const AuthProvider = ({ children }) => {
       }
       userInfo = JSON.parse(userInfo);
       if (userInfo) {
-        let data = await fetchClient(`/api/validar/`, "GET", null);
-        if (data) {
-          setUserInfo(userInfo);
-        } else {
-          setUserInfo({});
-        }
+        setUserInfo(userInfo);
       } else {
         setUserInfo({});
       }
@@ -109,7 +103,7 @@ export const AuthProvider = ({ children }) => {
      checkTextSize();
    }
     , [textSize]);
-    
+
 
   return (
     <AuthContext.Provider

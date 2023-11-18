@@ -1,10 +1,10 @@
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Overlay } from "react-native-elements";
-import { Colors } from "../../utils/colors.js";
+import { useTheme } from "react-native-paper";
 
 export default function Loading(props) {
-  // Estilo propio el del profesor es diferente pero se ve bien
+  const {colors} = useTheme();
   const { visible, text } = props;
   return (
     <Overlay
@@ -14,9 +14,9 @@ export default function Loading(props) {
       animationType="fade"
       overlayStyle={styles.overlay}
     >
-      <View style={styles.view}>
-        <ActivityIndicator size="large" color={Colors.primary} />
-        <Text style={styles.text}>{text}</Text>
+      <View style={{...styles.view, backgroundColor: colors.background}}>
+        <ActivityIndicator size="large" color={colors.primary} />
+        <Text style={{...styles.text, color: colors.primary}}>{text}</Text>
       </View>
     </Overlay>
   );
@@ -31,8 +31,6 @@ const styles = StyleSheet.create({
   overlay: {
     height: 100,
     width: 200,
-    backgroundColor: "#fff",
-    borderColor: Colors.primary,
     borderWidth: 2,
     borderRadius: 10,
   },
@@ -42,7 +40,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   text: {
-    color: Colors.black,
     textTransform: "uppercase",
     fontWeight: "bold",
   },

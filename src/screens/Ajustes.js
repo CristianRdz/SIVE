@@ -5,10 +5,11 @@ import { Card, useTheme } from "react-native-paper";
 import { temas } from "../data/themes";
 import { AuthContext } from "../services/auth/context/AuthContext";
 import DropdownComponent from "../components/common/DropdownComponent";
+import { Button } from "react-native-elements";
 
 export default function Ajustes() {
   const { colors } = useTheme();
-  const { setTheme, theme } = useContext(AuthContext);
+  const { setTheme, theme,logout } = useContext(AuthContext);
   return (
     <KeyboardAwareScrollView style={{ backgroundColor: colors.background }}>
       
@@ -20,6 +21,20 @@ export default function Ajustes() {
         setValueOut={setTheme}
       />
       </Card>
+
+      <Button
+        title="Cerrar Sesión" 
+        onPress={() => {
+          logout();
+        }}
+        buttonStyle={{ margin: 10 }}
+        icon={{
+          type: "material-community",
+          name: "logout",
+          color: colors.primary,
+        }}
+      />
+
     </KeyboardAwareScrollView>
   );
 }

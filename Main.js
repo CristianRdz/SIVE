@@ -21,24 +21,24 @@ export default function Main() {
       <Card
         style={{
           ...styles.toastBase,
-          backgroundColor: useTheme().colors.background,
-          borderColor: useTheme().colors.primary,
+          backgroundColor: colors.background,
+          borderColor: colors.successContainer,
         }}
       >
-        <Text style={{ fontSize: 15, fontWeight: "400" }}>{props.text1}</Text>
-        <Text style={{ fontSize: 13 }}>{props.text2}</Text>
+        <Text style={{ fontSize: 15, fontWeight: "400" , color: colors.text}}>{props.text1}</Text>
+        <Text style={{ fontSize: 13, color: colors.text }}>{props.text2}</Text>
       </Card>
     ),
     error: (props) => (
       <Card
         style={{
           ...styles.toastBase,
-          backgroundColor: useTheme().colors.background,
-          borderColor: useTheme().colors.errorContainer,
+          backgroundColor: colors.background,
+          borderColor: colors.errorContainer,
         }}
       >
-        <Text style={{ fontSize: 15, fontWeight: "400" }}>{props.text1}</Text>
-        <Text style={{ fontSize: 13 }}>{props.text2}</Text>
+        <Text style={{ fontSize: 15, fontWeight: "400" , color: colors.text}}>{props.text1}</Text>
+        <Text style={{ fontSize: 13 , color: colors.text}}>{props.text2}</Text>
       </Card>
     ),
   };

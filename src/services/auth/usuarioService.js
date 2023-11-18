@@ -1,28 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../../utils/constants.js";
 
-export async function login(correo, contrasena) {
-  try {
-    const url = `${API_URL}/api/usuario/login`;
-    const params = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ correo, contrasena }),
-    };
-    const response = await fetch(url, params);
-    const result = await response.json();
-    if (result.data) {
-      return true
-    } else {
-      return false
-    }
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
+
 export async function getUserData() {
   try {
     const userInfo = await AsyncStorage.getItem("userInfo");
@@ -37,7 +16,7 @@ export async function getUserById(id) {
   try {
     const userInfo = await getUserData();
     const token = userInfo.token;
-    const url = `${API_URL}/api/usuario/${id}`;
+    const url = `${API_URL}/api/user/${id}`;
     const params = {
       method: "GET",
       headers: {
@@ -62,7 +41,7 @@ export async function updateUser(user) {
   try {
     const userInfo = await getUserData();
     const token = userInfo.token;
-    const url = `${API_URL}/api/usuario/`;
+    const url = `${API_URL}/api/user/`;
     const params = {
       method: "PUT",
       headers: {
@@ -84,15 +63,15 @@ export async function updateUser(user) {
   }
 }
 
-export async function register(usuario) {
+export async function register(user) {
   try {
-    const url = `${API_URL}/api/usuario/`;
+    const url = `${API_URL}/api/user/`;
     const params = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(usuario),
+      body: JSON.stringify(user),
     };
     const response = await fetch(url, params);
     const result = await response.json();
