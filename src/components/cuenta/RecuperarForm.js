@@ -6,6 +6,7 @@ import Toast from "react-native-toast-message";
 import Loading from "../common/Loading";
 import { Card, TextInput, useTheme } from "react-native-paper";
 import { Button, Icon, Image } from "react-native-elements";
+import { recoverPassword } from "../../services/auth/usuarioService";
 
 export default function RecuperarForm(props) {
   const { colors } = useTheme();
