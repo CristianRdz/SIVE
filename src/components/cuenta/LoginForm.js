@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 20,
     textAlign: "center",
-    fontSize: "medium",
+    fontSize: 16,
     fontWeight: "bold",
   },
   logo: {
@@ -147,6 +147,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginVertical: 10,
-    fontSize: "large",
+    fontSize: 16,
   },
 });
