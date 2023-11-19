@@ -4,7 +4,6 @@ import { Icon, ListItem } from "react-native-elements";
 import { map } from "lodash";
 import Modal from "../common/Modal";
 import { getUserById } from "../../services/auth/usuarioService";
-
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../services/auth/context/AuthContext";
 import Loading from "../common/Loading";
@@ -18,10 +17,8 @@ export default function OpcionesPerfil(props) {
   const { userInfo, isLoading, logout } = useContext(AuthContext);
   const [response, setResponse] = useState({});
   async function fetchData() {
-    
-      const response = await getUserById(userInfo.user.usuario.id_usuario);
-      setResponse(response);
-    
+      console.log(userInfo);
+      setResponse(userInfo);
   }
   useEffect(() => {
     fetchData();

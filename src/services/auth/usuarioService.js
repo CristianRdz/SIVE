@@ -27,8 +27,8 @@ export async function getUserById(id) {
 
     const response = await fetch(url, params);
     const result = await response.json();
-    if (result.data) {
-      return result.data;
+    if (result) {
+      return result;
     }
     return null;
   } catch (error) {
@@ -53,8 +53,8 @@ export async function updateUser(user) {
 
     const response = await fetch(url, params);
     const result = await response.json();
-    if (result.data) {
-      return result.data;
+    if (result) {
+      return result;
     }
     return null;
   } catch (error) {
@@ -75,7 +75,7 @@ export async function register(user) {
     };
     const response = await fetch(url, params);
     const result = await response.json();
-    if (result.data) {
+    if (result) {
       return true;
     } else {
       return false;

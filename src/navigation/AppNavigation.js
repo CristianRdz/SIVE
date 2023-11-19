@@ -123,7 +123,7 @@ function iconos(route, color, size) {
     name = "clipboard-list";
   }
   if (route.name === "cargando") {
-    name = "spinner";
+    name = "loading";
   }
   if (route.name === "ajustes") {
     name = "cog";
