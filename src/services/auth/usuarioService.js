@@ -95,7 +95,7 @@ export async function recoverPassword(email) {
           headers: {
               "Content-Type": "application/json"
           },
-          body: JSON.stringify({ correo: email })
+          body: JSON.stringify({ email: email })
       };
 
       const response = await fetch(url, params);

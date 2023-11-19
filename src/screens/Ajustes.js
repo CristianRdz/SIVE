@@ -22,21 +22,6 @@ export default function Ajustes() {
       />
       </Card>
 
-      <Button
-        title="Cerrar Sesión" 
-        onPress={() => {
-          logout();
-        }}
-        buttonStyle={{ margin: 10 }}
-        icon={{
-          type: "material-community",
-          name: "logout",
-          color: colors.primary,
-        }}
-      />
-
     </KeyboardAwareScrollView>
   );
 }
-
-const styles = StyleSheet.create({});

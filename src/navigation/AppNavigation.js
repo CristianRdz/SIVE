@@ -6,7 +6,9 @@ import { useTheme } from "react-native-paper";
 import { AuthContext } from "../services/auth/context/AuthContext";
 import Ajustes from "../screens/Ajustes";
 import ClientStack from "./cliente/ClienteStack";
-import AdminStack from "./admin/AdminStack";  
+import AdminStack from "./admin/AdminStack";
+import PerfilStack from "./PerfilStack";
+import SplashScreen from "../screens/SplashScreen";
 const Tab = createMaterialBottomTabNavigator();
 
 export default function AppNavigation() {
@@ -39,7 +41,17 @@ export default function AppNavigation() {
           <Tab.Screen
             name="inicioAdmin"
             options={{ title: "Inicio" }}
-            component={AdminStack}  
+            component={AdminStack}
+          />
+          <Tab.Screen
+            name="ajustes"
+            options={{ title: "Ajustes" }}
+            component={Ajustes}
+          />
+          <Tab.Screen
+            name="perfilAdmin"
+            options={{ title: "Perfil" }}
+            component={PerfilStack}
           />
         </>
       ) : userInfo.token && userInfo.role.name === "cliente" ? (
@@ -49,6 +61,16 @@ export default function AppNavigation() {
             options={{ title: "Inicio" }}
             component={ClientStack}
           />
+          <Tab.Screen
+            name="ajustes"
+            options={{ title: "Ajustes" }}
+            component={Ajustes}
+          />
+          <Tab.Screen
+            name="perfilCliente"
+            options={{ title: "Perfil" }}
+            component={PerfilStack}
+          />
         </>
       ) : (
         <>
@@ -57,13 +79,13 @@ export default function AppNavigation() {
             options={{ title: "Iniciar Sesión" }}
             component={AuthStack}
           />
+          <Tab.Screen
+            name="ajustes"
+            options={{ title: "Ajustes" }}
+            component={Ajustes}
+          />
         </>
       )}
-      <Tab.Screen
-        name="ajustes"
-        options={{ title: "Ajustes" }}
-        component={Ajustes}
-      />
     </Tab.Navigator>
   );
 }
@@ -74,7 +96,7 @@ function iconos(route, color, size) {
     name = "home";
   }
   if (route.name === "perfilAdmin" || route.name === "perfilCliente") {
-    name = "user";
+    name = "account";
   }
   if (route.name === "lineasAdmin") {
     name = "list";

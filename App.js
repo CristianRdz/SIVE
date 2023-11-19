@@ -5,9 +5,10 @@ import { Card, DefaultTheme, PaperProvider, useTheme } from 'react-native-paper'
 import Toast from 'react-native-toast-message';
 import Main from './Main';
 import { AuthContext, AuthProvider } from './src/services/auth/context/AuthContext';
-import 'react-native-gesture-handler';
+import { LogBox } from 'react-native';
 
 export default function App() {
+  LogBox.ignoreAllLogs(true)
   return (
     <AuthProvider>
       <Main />
