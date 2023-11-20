@@ -4,11 +4,11 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import AuthStack from "./AuthStack";
 import { useTheme } from "react-native-paper";
 import { AuthContext } from "../services/auth/context/AuthContext";
-import Ajustes from "../screens/Ajustes";
 import ClientStack from "./cliente/ClienteStack";
 import AdminStack from "./admin/AdminStack";
 import PerfilStack from "./PerfilStack";
 import SplashScreen from "../screens/SplashScreen";
+import AjustesStack from "./AjustesStack";
 const Tab = createMaterialBottomTabNavigator();
 
 export default function AppNavigation() {
@@ -46,7 +46,7 @@ export default function AppNavigation() {
           <Tab.Screen
             name="ajustes"
             options={{ title: "Ajustes" }}
-            component={Ajustes}
+            component={AjustesStack}
           />
           <Tab.Screen
             name="perfilAdmin"
@@ -64,7 +64,7 @@ export default function AppNavigation() {
           <Tab.Screen
             name="ajustes"
             options={{ title: "Ajustes" }}
-            component={Ajustes}
+            component={AjustesStack}
           />
           <Tab.Screen
             name="perfilCliente"
@@ -82,7 +82,7 @@ export default function AppNavigation() {
           <Tab.Screen
             name="ajustes"
             options={{ title: "Ajustes" }}
-            component={Ajustes}
+            component={AjustesStack}
           />
         </>
       )}

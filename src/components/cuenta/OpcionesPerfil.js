@@ -53,9 +53,9 @@ export default function OpcionesPerfil(props) {
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <Loading isVisible={isLoading} text="Cargando..." />
       {response.name ? (
-        <Text style={styles.mensaje}>Bienvenido {response.name}</Text>
+        <Text style={{...styles.mensaje, color: colors.primary}}>Bienvenido {response.name}</Text>
       ) : (
-        <Text style={styles.mensaje}>Bienvenido</Text>
+        <Text style={{...styles.mensaje, color: colors.primary}}>Bienvenido</Text>
       )}
       {map(optionsMenu, (menu, index) => (
         <ListItem key={index} onPress={menu.onPress} ViewComponent={menu.ViewComponent} containerStyle={{backgroundColor: colors.background}}>

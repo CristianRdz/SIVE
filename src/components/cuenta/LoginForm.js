@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -7,7 +7,7 @@ import Loading from "../common/Loading";
 import { AuthContext } from "../../services/auth/context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { Card, TextInput, useTheme } from "react-native-paper";
-import { Button, Icon, Image } from "react-native-elements";
+import { Button, Icon } from "react-native-elements";
 
 export default function LoginForm() {
   const { login, textSize } = useContext(AuthContext);
@@ -46,7 +46,7 @@ export default function LoginForm() {
   return (
     <Card style={styles.viewContent}>
       <Image
-        source={"http://129.146.111.32:3000/65518237004b5d61506f7057"}
+        source={require("../../../assets/iconDulce.png")}
         style={styles.logo}
       />
 

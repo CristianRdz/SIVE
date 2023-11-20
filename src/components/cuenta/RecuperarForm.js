@@ -54,7 +54,7 @@ export default function RecuperarForm(props) {
   return (
     <Card style={styles.viewContent}>
       <Image
-        source={"http://129.146.111.32:3000/65518237004b5d61506f7057"}
+        source={require("../../../assets/iconDulce.png")}
         style={styles.logo}
       />
       

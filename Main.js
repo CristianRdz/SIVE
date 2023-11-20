@@ -67,7 +67,7 @@ export default function Main() {
     <PaperProvider
       theme={theme == "system" ? "" : theme == "dark" ? DarkTheme : LightTheme}
     >
-      <StatusBar style="auto" />
+      <StatusBar  backgroundColor={theme == "dark" ? "transparent" : "#fff"} style={theme == "dark" ? "light" : "dark"} />
       <NavigationContainer>
         <AppNavigation />
       </NavigationContainer>
