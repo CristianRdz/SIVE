@@ -3,13 +3,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { Icon, ListItem } from "react-native-elements";
 import { map } from "lodash";
 import Modal from "../common/Modal";
-import { getUserById } from "../../services/auth/usuarioService";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../services/auth/context/AuthContext";
 import Loading from "../common/Loading";
-import { getUsuario } from "../../services/usuarios/usuarioServiceFC.js";
+import { getUser } from "../../services/usuarios/usuarioService.js";
 //paper theme
 import { useTheme } from "react-native-paper";
+import CambiarContra from "./CambiarContra.js";
 
 export default function OpcionesPerfil(props) {
   const { colors } = useTheme();
@@ -17,8 +17,8 @@ export default function OpcionesPerfil(props) {
   const { userInfo, isLoading, logout } = useContext(AuthContext);
   const [response, setResponse] = useState({});
   async function fetchData() {
-      console.log(userInfo);
-      setResponse(userInfo);
+      const response = await getUser(userInfo.identKey);
+      setResponse(response);
   }
   useEffect(() => {
     fetchData();
@@ -30,9 +30,11 @@ export default function OpcionesPerfil(props) {
     switch (word) {
       case "contra":
         setRenderComponent(
-          <Text>
-            Cambiar contraseña
-          </Text>
+          <CambiarContra
+            usuario={response}
+            close={openClose}
+            fetchDataOut={fetchDataOut}
+          />
         );
         break;
       case "perfil":

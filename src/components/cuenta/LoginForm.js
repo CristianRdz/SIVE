@@ -8,9 +8,11 @@ import { AuthContext } from "../../services/auth/context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { Card, TextInput, useTheme } from "react-native-paper";
 import { Button, Icon } from "react-native-elements";
+import { getTextSize } from "../../utils/textSizes";
 
 export default function LoginForm() {
   const { login, textSize } = useContext(AuthContext);
+  const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
   const { colors } = useTheme();
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
@@ -54,6 +56,7 @@ export default function LoginForm() {
         mode="outlined"
         label="Correo electrónico"
         containerStyle={styles.input}
+        style={{ fontSize: textSizes.Text }}
         right={
           <TextInput.Icon
             icon={() => (
@@ -73,6 +76,7 @@ export default function LoginForm() {
         mode="outlined"
         label="Contraseña"
         containerStyle={styles.input}
+        style={{ fontSize: textSizes.Text }}
         secureTextEntry={showPassword ? false : true}
         right={
           <TextInput.Icon
@@ -100,7 +104,7 @@ export default function LoginForm() {
             style={styles.icon}
           />
         }
-        titleStyle={{ color: colors.surface }}
+        titleStyle={{ color: colors.surface , fontSize: textSizes.Subtitle}}
         title={"Iniciar Sesión"}
         containerStyle={{
           ...styles.btnContainer,
@@ -110,7 +114,7 @@ export default function LoginForm() {
         onPress={formik.handleSubmit}
       />
       <Text
-        style={{ ...styles.registerLink, color: colors.primary }}
+        style={{ ...styles.registerLink, color: colors.primary , fontSize: textSizes.Subtitle}}
         onPress={() => {
           navigation.navigate("recoverS");
         }}
@@ -148,7 +152,6 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 20,
     textAlign: "center",
-    fontSize: 16,
     fontWeight: "bold",
   },
   logo: {
@@ -163,6 +166,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginVertical: 10,
-    fontSize: 16,
   },
 });

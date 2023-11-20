@@ -92,14 +92,20 @@ export const AuthProvider = ({ children }) => {
      }
      checkTheme();
    }, [theme]);
-
+   async function changeTextSize(size) {
+     // que no sea undefined
+      if (size) {
+        setTextSize(size);
+        await AsyncStorage.setItem("textSize", size);
+      }
+   }
    useEffect( () => {
     const checkTextSize = async () => {
-     if (textSize.valor) {
-       setTextSize(textSize.valor);
-       await AsyncStorage.setItem("textSize", textSize.valor);
-     }
-     }
+      if (textSize.valor && textSize.valor !== "undefined") {
+        setTextSize(textSize.valor);
+        await AsyncStorage.setItem("textSize", textSize.valor);
+      }
+      }
      checkTextSize();
    }
     , [textSize]);
@@ -117,6 +123,7 @@ export const AuthProvider = ({ children }) => {
         setTheme,
         textSize,
         setTextSize,
+        changeTextSize,
       }}
     >
       {children}

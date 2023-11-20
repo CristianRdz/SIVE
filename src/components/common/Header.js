@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "react-native-elements";
 import { useTheme } from "react-native-paper";
+import { AuthContext } from "../../services/auth/context/AuthContext";
+import { getTextSize } from "../../utils/textSizes";
 export default function Header(title) {
   const navigation = useNavigation();
   const { colors } = useTheme();
+  const {textSize} = useContext(AuthContext);
+  const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
   return {
     title: title,
     headerStyle: {
@@ -14,7 +18,10 @@ export default function Header(title) {
     // color iconos barra de estado
     headerTintColor: colors.primary,
     headerTitleStyle: {
-      fontWeight: 'bold',
+      // color titulo
+      color: colors.primary,
+      fontSize: textSizes.Subtitle,
+      fontWeight: "bold",
     },
     //headerRight:
       // icono de menu
