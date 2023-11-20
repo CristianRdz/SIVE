@@ -66,8 +66,8 @@ export default function OpcionesPerfil(props) {
             name={menu.iconNameLeft}
             color={menu.iconColorLeft}
           />
-          <ListItem.Content style={{backgroundColor: colors.background}} selectionColor={colors.primary}>
-            <ListItem.Title style={{color: colors.primary,backgroundColor: colors.background, fontWeight: 'bold'}}>{menu.title}</ListItem.Title>
+          <ListItem.Content  selectionColor={colors.primary}>
+            <ListItem.Title style={{ fontWeight: 'bold', color: colors.primary }}>{menu.title}</ListItem.Title>
           </ListItem.Content>
           <Icon
             type={menu.iconType}

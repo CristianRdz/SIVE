@@ -62,19 +62,8 @@ export const changePasswordUser= async (usuario) => {
 
 export async function recoverPassword(email) {
   try {
-      const url = `${API_URL}/api/auth/reset-password/`;
-      const params = {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ email: email })
-      };
-
-      const response = await fetch(url, params);
-      if (response.status === 200) {
-          return true;
-      }
+      const response = await fetchClient("/api/auth/reset-password/", "POST", { email });
+      return response;
   } catch (error) {
       console.log(error);
       return false;

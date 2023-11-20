@@ -14,13 +14,13 @@ export default function Ajustes() {
   const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
   return (
     <KeyboardAwareScrollView style={{ backgroundColor: colors.background }}>
-      
       <Card style={{ margin: 10, padding: 10 }}>
 
       <Text style={{ fontSize: textSizes.Title, fontWeight: "bold", color: colors.primary }}>
         Temas de la aplicación
       </Text>
       <DropdownComponent
+        selectedValue={temas.find((x) => x.valor === theme)}
         data={temas}
         nombre="nombre"
         id="id"
@@ -32,6 +32,7 @@ export default function Ajustes() {
       </Text>
       <DropdownComponent
         data={tamanios}
+        selectedValue={tamanios.find((x) => x.valor === textSize)}
         nombre="nombre"
         id="id"
         setValueOut={changeTextSize}

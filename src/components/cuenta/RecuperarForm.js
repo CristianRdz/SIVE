@@ -7,10 +7,14 @@ import Loading from "../common/Loading";
 import { Card, TextInput, useTheme } from "react-native-paper";
 import { Button, Icon, Image } from "react-native-elements";
 import { recoverPassword } from "../../services/usuarios/usuarioService";
+import { AuthContext } from "../../services/auth/context/AuthContext";
+import { getTextSize } from "../../utils/textSizes";
 
 
 export default function RecuperarForm(props) {
   const { colors } = useTheme();
+  const { textSize } = useContext(AuthContext);
+  const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -63,6 +67,7 @@ export default function RecuperarForm(props) {
         mode="outlined"
         label="Correo electrónico"
         containerStyle={styles.input}
+        style={{ fontSize: textSizes.Text }}
         right={
           <TextInput.Icon
             icon={() => (
@@ -88,11 +93,12 @@ export default function RecuperarForm(props) {
             style={styles.icon}
           />
         }
-        titleStyle={{ color: colors.surface }}
+        titleStyle={{ color: colors.surface , fontSize: textSizes.Subtitle}}
         title={"Recuperar contraseña"}
         containerStyle={{ ...styles.btnContainer, backgroundColor: colors.primary }}
         buttonStyle={{ backgroundColor: colors.primary }}
         onPress={formik.handleSubmit}
+        loading={formik.isSubmitting}
       />
 
     </Card>
