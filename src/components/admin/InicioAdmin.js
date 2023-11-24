@@ -3,9 +3,12 @@ import React from "react";
 import { useTheme, Card } from "react-native-paper";
 import { Icon, colors } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function InicioAdmin() {
   const { colors } = useTheme();
+  const navigation = useNavigation();
+
   return (
     <View
       style={{
@@ -41,7 +44,7 @@ export default function InicioAdmin() {
             borderRadius: 10,
             borderWidth: 1,
           }}
-          onPress={() => navigation.navigate("")}
+          onPress={() => navigation.navigate("admin-productos")}
         >
           <View
             style={{
@@ -79,7 +82,7 @@ export default function InicioAdmin() {
             borderRadius: 10,
             borderWidth: 1,
           }}
-          onPress={() => navigation.navigate("")}
+          onPress={() => navigation.navigate("admin-usuarios")}
         >
           <View
             style={{
@@ -117,7 +120,7 @@ export default function InicioAdmin() {
             borderRadius: 10,
             borderWidth: 1,
           }}
-          onPress={() => navigation.navigate("")}
+          onPress={() => navigation.navigate("admin-ventas")}
         >
           <View
             style={{

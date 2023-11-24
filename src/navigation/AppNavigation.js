@@ -9,6 +9,7 @@ import AdminStack from "./admin/AdminStack";
 import PerfilStack from "./PerfilStack";
 import SplashScreen from "../screens/SplashScreen";
 import AjustesStack from "./AjustesStack";
+import AdminProductosStack from "./admin/AdminProductosStack";
 const Tab = createMaterialBottomTabNavigator();
 
 export default function AppNavigation() {
