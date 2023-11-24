@@ -9,7 +9,7 @@ export default function ClientStack() {
       <Stack.Screen
         name="inicioAdminS"
         component={InicioAdmin}
-        options={Header("Inicio de admin")}
+        options={Header("INICIO ADMINISTRADOR")}
       />
     </Stack.Navigator>
   );
