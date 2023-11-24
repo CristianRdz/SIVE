@@ -9,7 +9,7 @@ export default function AjustesStack() {
       <Stack.Screen
         name="ajustesS"
         component={Ajustes}
-        options={Header("Ajustes")}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

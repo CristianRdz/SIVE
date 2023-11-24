@@ -10,12 +10,12 @@ export default function AuthStack() {
       <Stack.Screen
         name="loginS"
         component={LoginScreen}
-        options={Header("Inicio de Sesión")}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="recoverS"
         component={RecuperarScreen}
-        options={Header("Recuperar Contraseña")}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

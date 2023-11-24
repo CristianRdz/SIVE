@@ -76,6 +76,7 @@ export default function LoginForm() {
         mode="outlined"
         label="Contraseña"
         containerStyle={styles.input}
+        autoCapitalize="none"
         style={{ fontSize: textSizes.Text }}
         secureTextEntry={showPassword ? false : true}
         right={
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
   viewContent: {
     borderRadius: 20,
     padding: 10,
-    margin: 10,
+    margin: 15,
   },
   input: {
     width: "100%",

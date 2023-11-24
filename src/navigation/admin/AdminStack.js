@@ -14,22 +14,22 @@ export default function ClientStack() {
       <Stack.Screen
         name="inicioAdminS"
         component={InicioAdmin}
-        options={Header("INICIO ADMINISTRADOR")}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="admin-productos"
         component={ProductosScreen}
-        options={Header("GESTIONAR PRODUCTOS")}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="admin-usuarios"
         component={UsuariosScreen}
-        options={Header("GESTIONAR USUARIOS")}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="admin-ventas"
         component={VentasScreen}
-        options={Header("VENTAS")}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

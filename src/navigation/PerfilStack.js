@@ -8,7 +8,7 @@ export default function PerfilStack() {
       <Stack.Screen
         name="perfilS"
         component={PerfilScreen}
-        options={Header("Perfil")}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

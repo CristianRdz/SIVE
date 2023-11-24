@@ -15,6 +15,7 @@ export default function InicioAdmin() {
         flex: 1,
         alignItems: "center",
         backgroundColor: colors.background,
+        paddingTop: "5%",
       }}
     >
       <Card

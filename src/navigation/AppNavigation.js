@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Icon } from "react-native-elements";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import AuthStack from "./AuthStack";
 import { useTheme } from "react-native-paper";
 import { AuthContext } from "../services/auth/context/AuthContext";
@@ -10,64 +11,84 @@ import PerfilStack from "./PerfilStack";
 import SplashScreen from "../screens/SplashScreen";
 import AjustesStack from "./AjustesStack";
 import AdminProductosStack from "./admin/AdminProductosStack";
+import { size } from "lodash";
+import { color } from "react-native-elements/dist/helpers";
 const Tab = createMaterialBottomTabNavigator();
+
+function cerrarSesion() {
+  const { logout } = useContext(AuthContext);
+  logout();
+}
 
 export default function AppNavigation() {
   const { colors } = useTheme();
   const { userInfo, splashLoading } = useContext(AuthContext);
+  const Drawer = createDrawerNavigator();
+
   return (
-    <Tab.Navigator
-      activeColor={colors.primary}
-      inactiveColor={colors.secondary}
-      barStyle={{ backgroundColor: colors.onSecondary }}
+    <Drawer.Navigator
+      initialRouteName="inicioAdmin"
       screenOptions={({ route }) => ({
-        headerShown: false,
-        animation: "spring",
-        stiffness: 1000,
-        damping: 500,
-        mass: 3,
-        overshootClamping: true,
-        restDisplacementThreshold: 0.01,
-        tabBarIcon: ({ color, size }) => iconos(route, color, size),
+        headerStyle: {
+          backgroundColor: colors.surface,
+        },
+        headerTitleStyle: {
+          color: colors.primary,
+        },
+        drawerIcon: ({ color, size }) => iconos(route, color, size),
+        drawerStyle: {
+          backgroundColor: colors.surface,
+          width: "70%",
+        },
+        drawerActiveBackgroundColor: "#C080FF",
+        drawerActiveTintColor: colors.surface,
+        drawerInactiveTintColor: colors.primary,
       })}
     >
       {splashLoading ? (
-        <Tab.Screen
+        <Drawer.Screen
           name="cargando"
           options={{ title: "Cargando" }}
           component={SplashScreen}
         />
       ) : userInfo.token && userInfo.role.name === "admin" ? (
         <>
-          <Tab.Screen
+          <Drawer.Screen
             name="inicioAdmin"
             options={{ title: "Inicio" }}
             component={AdminStack}
           />
-          <Tab.Screen
+          <Drawer.Screen
             name="ajustes"
             options={{ title: "Ajustes" }}
             component={AjustesStack}
           />
-          <Tab.Screen
+          <Drawer.Screen
             name="perfilAdmin"
             options={{ title: "Perfil" }}
             component={PerfilStack}
           />
+          <Drawer.Screen
+            name="cerrarSesion"
+            options={{
+              title: "Cerrar Sesión",
+            }}
+            component={cerrarSesion}
+          />
         </>
       ) : userInfo.token && userInfo.role.name === "cliente" ? (
         <>
-          <Tab.Screen
+          <Drawer.Screen
             name="inicioCliente"
             options={{ title: "Inicio" }}
             component={ClientStack}
           />
-          <Tab.Screen
+          <Drawer.Screen
             name="ajustes"
             options={{ title: "Ajustes" }}
             component={AjustesStack}
           />
-          <Tab.Screen
+          <Drawer.Screen
             name="perfilCliente"
             options={{ title: "Perfil" }}
             component={PerfilStack}
@@ -75,19 +96,19 @@ export default function AppNavigation() {
         </>
       ) : (
         <>
-          <Tab.Screen
+          <Drawer.Screen
             name="login"
             options={{ title: "Iniciar Sesión" }}
             component={AuthStack}
           />
-          <Tab.Screen
+          <Drawer.Screen
             name="ajustes"
             options={{ title: "Ajustes" }}
             component={AjustesStack}
           />
         </>
       )}
-    </Tab.Navigator>
+    </Drawer.Navigator>
   );
 }
 
@@ -119,6 +140,9 @@ function iconos(route, color, size) {
   }
   if (route.name === "login") {
     name = "account";
+  }
+  if (route.name === "cerrarSesion") {
+    name = "logout";
   }
   if (route.name === "pedidosAdmin") {
     name = "clipboard-list";
