@@ -1,6 +1,5 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Header from "../../components/common/Header";
 import InicioAdmin from "../../components/admin/InicioAdmin";
 import ProductosScreen from "../../screens/admin/ProductosScreen";
 import UsuariosScreen from "../../screens/admin/UsuariosScreen";

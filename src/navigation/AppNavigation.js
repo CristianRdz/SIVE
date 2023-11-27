@@ -1,7 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Icon } from "react-native-elements";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import {
+  DrawerContentScrollView,
+  DrawerItem,
+  DrawerItemList,
+  createDrawerNavigator,
+} from "@react-navigation/drawer";
 import AuthStack from "./AuthStack";
 import { useTheme } from "react-native-paper";
 import { AuthContext } from "../services/auth/context/AuthContext";
@@ -10,15 +14,44 @@ import AdminStack from "./admin/AdminStack";
 import PerfilStack from "./PerfilStack";
 import SplashScreen from "../screens/SplashScreen";
 import AjustesStack from "./AjustesStack";
-import AdminProductosStack from "./admin/AdminProductosStack";
-import { size } from "lodash";
-import { color } from "react-native-elements/dist/helpers";
-const Tab = createMaterialBottomTabNavigator();
+import { View } from "react-native";
 
-function cerrarSesion() {
-  const { logout } = useContext(AuthContext);
-  logout();
-}
+const CustomDrawerContent = (props) => {
+  const { colors } = useTheme();
+  const { userInfo, logout } = useContext(AuthContext);
+
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      {userInfo.token && userInfo.role.name === "admin" && (
+        <>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: colors.primary,
+              marginVertical: 20,
+              marginHorizontal: 15,
+            }}
+          />
+          <DrawerItem
+            label="Cerrar sesión"
+            onPress={() => {
+              logout();
+            }}
+            icon={() => (
+              <Icon
+                type="material-community"
+                name="logout"
+                color={colors.primary}
+              />
+            )}
+            labelStyle={{ color: colors.primary }}
+          />
+        </>
+      )}
+    </DrawerContentScrollView>
+  );
+};
 
 export default function AppNavigation() {
   const { colors } = useTheme();
@@ -38,12 +71,13 @@ export default function AppNavigation() {
         drawerIcon: ({ color, size }) => iconos(route, color, size),
         drawerStyle: {
           backgroundColor: colors.surface,
-          width: "70%",
+          width: "75%",
         },
         drawerActiveBackgroundColor: "#C080FF",
         drawerActiveTintColor: colors.surface,
         drawerInactiveTintColor: colors.primary,
       })}
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
       {splashLoading ? (
         <Drawer.Screen
@@ -59,21 +93,14 @@ export default function AppNavigation() {
             component={AdminStack}
           />
           <Drawer.Screen
-            name="ajustes"
-            options={{ title: "Ajustes" }}
-            component={AjustesStack}
-          />
-          <Drawer.Screen
             name="perfilAdmin"
-            options={{ title: "Perfil" }}
+            options={{ title: "Mi perfil" }}
             component={PerfilStack}
           />
           <Drawer.Screen
-            name="cerrarSesion"
-            options={{
-              title: "Cerrar Sesión",
-            }}
-            component={cerrarSesion}
+            name="ajustes"
+            options={{ title: "Preferencias del sistema" }}
+            component={AjustesStack}
           />
         </>
       ) : userInfo.token && userInfo.role.name === "cliente" ? (
@@ -84,14 +111,14 @@ export default function AppNavigation() {
             component={ClientStack}
           />
           <Drawer.Screen
-            name="ajustes"
-            options={{ title: "Ajustes" }}
-            component={AjustesStack}
+            name="perfilCliente"
+            options={{ title: "Mi perfil" }}
+            component={PerfilStack}
           />
           <Drawer.Screen
-            name="perfilCliente"
-            options={{ title: "Perfil" }}
-            component={PerfilStack}
+            name="ajustes"
+            options={{ title: "Preferencias del sistema" }}
+            component={AjustesStack}
           />
         </>
       ) : (
