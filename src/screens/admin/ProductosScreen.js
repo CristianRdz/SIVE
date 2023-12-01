@@ -7,6 +7,8 @@ import { View } from "react-native";
 import { getProducts } from "../../services/products/productService";
 import Searchbar from "../../components/common/Searchbar";
 import Goback from "../../components/common/GoBack";
+import ScrollCategories from "../../components/common/ScrollCategories";
+import Title from "../../components/common/Title";
 
 export default function ProductosScreen() {
   // const [productos, setProductos] = useState([]);
@@ -16,7 +18,6 @@ export default function ProductosScreen() {
   const getProductsFetch = async () => {
     try {
       const data = await getProducts();
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -27,22 +28,24 @@ export default function ProductosScreen() {
   }, []);
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={{ backgroundColor: colors.surface }}
+    <View
+      style={{
+        flex: 1,
+        paddingHorizontal: "2%",
+        backgroundColor: colors.surface,
+      }}
     >
-      <View
-        style={{
-          flex: 1,
-          marginHorizontal: "2%",
-          backgroundColor: colors.surface,
-        }}
+      <Goback title={"Productos"} />
+      <Searchbar setInputValue={setInputValue} />
+      <ScrollCategories />
+      <Title title={"Lista de productos"} />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: colors.surface }}
       >
-        <Goback title={"Productos"}/>
-        <Searchbar setInputValue={setInputValue} />
         <Products productos={productos} />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 

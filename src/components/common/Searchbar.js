@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: "5%",
     marginHorizontal: "4%",
-    marginBottom: "5%",
+    marginBottom: "3%",
   },
   searchIcon: {
     marginRight: "5%",

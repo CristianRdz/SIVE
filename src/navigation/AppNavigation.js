@@ -23,7 +23,7 @@ const CustomDrawerContent = (props) => {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      {userInfo.token && userInfo.role.name === "admin" && (
+      {userInfo.token && (
         <>
           <View
             style={{
@@ -73,9 +73,10 @@ export default function AppNavigation() {
           backgroundColor: colors.surface,
           width: "75%",
         },
-        drawerActiveBackgroundColor: "#C080FF",
+        drawerActiveBackgroundColor: colors.primary,
         drawerActiveTintColor: colors.surface,
         drawerInactiveTintColor: colors.primary,
+        headerTintColor: colors.secondary,
       })}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
@@ -130,7 +131,7 @@ export default function AppNavigation() {
           />
           <Drawer.Screen
             name="ajustes"
-            options={{ title: "Ajustes" }}
+            options={{ title: "Preferencias del sistema" }}
             component={AjustesStack}
           />
         </>

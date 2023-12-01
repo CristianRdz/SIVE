@@ -7,7 +7,6 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../services/auth/context/AuthContext";
 import Loading from "../common/Loading";
 import { getUser } from "../../services/usuarios/usuarioService.js";
-//paper theme
 import { useTheme } from "react-native-paper";
 import CambiarContra from "./CambiarContra.js";
 
@@ -16,16 +15,20 @@ export default function OpcionesPerfil(props) {
   const { fetchDataOut, setLocalLoading } = props;
   const { userInfo, isLoading, logout } = useContext(AuthContext);
   const [response, setResponse] = useState({});
+
   async function fetchData() {
-      const response = await getUser(userInfo.identKey);
-      setResponse(response);
+    const response = await getUser(userInfo.identKey);
+    setResponse(response);
   }
+
   useEffect(() => {
     fetchData();
   }, []);
+
   const [showModal, setShowModal] = useState(false);
   const [renderComponent, setRenderComponent] = useState(null);
   const openClose = () => setShowModal((prevState) => !prevState);
+
   const selectComponent = (word) => {
     switch (word) {
       case "contra":
@@ -38,11 +41,7 @@ export default function OpcionesPerfil(props) {
         );
         break;
       case "perfil":
-        setRenderComponent(
-          <Text>
-            Editar perfil
-          </Text>
-        );
+        setRenderComponent(<Text>Editar perfil</Text>);
         break;
       default:
         setRenderComponent(<Text>default</Text>);
@@ -50,24 +49,38 @@ export default function OpcionesPerfil(props) {
     }
     openClose();
   };
+
   const optionsMenu = getOptionsMenu(selectComponent);
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <Loading isVisible={isLoading} text="Cargando..." />
       {response.name ? (
-        <Text style={{...styles.mensaje, color: colors.primary}}>Bienvenido {response.name}</Text>
+        <Text style={{ ...styles.mensaje, color: colors.primary }}>
+          Bienvenido {response.name}
+        </Text>
       ) : (
-        <Text style={{...styles.mensaje, color: colors.primary}}>Bienvenido</Text>
+        <Text style={{ ...styles.mensaje, color: colors.primary }}>
+          Bienvenido
+        </Text>
       )}
       {map(optionsMenu, (menu, index) => (
-        <ListItem key={index} onPress={menu.onPress} ViewComponent={menu.ViewComponent} containerStyle={{backgroundColor: colors.background}}>
+        <ListItem
+          key={index}
+          onPress={menu.onPress}
+          ViewComponent={menu.ViewComponent}
+          containerStyle={{ backgroundColor: colors.background }}
+        >
           <Icon
             type={menu.iconType}
             name={menu.iconNameLeft}
             color={menu.iconColorLeft}
           />
-          <ListItem.Content  selectionColor={colors.primary}>
-            <ListItem.Title style={{ fontWeight: 'bold', color: colors.primary }}>{menu.title}</ListItem.Title>
+          <ListItem.Content selectionColor={colors.primary}>
+            <ListItem.Title
+              style={{ fontWeight: "bold", color: colors.primary }}
+            >
+              {menu.title}
+            </ListItem.Title>
           </ListItem.Content>
           <Icon
             type={menu.iconType}
@@ -107,19 +120,7 @@ function getOptionsMenu(selectComponent) {
         iconColorRight: colors.primary,
         iconNameRight: "chevron-right",
         onPress: () => selectComponent("contra"),
-      },
-
-      {
-        title: "Cerrar sesión",
-        iconType: "material-community",
-        iconNameLeft: "logout",
-        iconColorLeft: colors.primary,
-        iconColorRight: colors.primary,
-        iconNameRight: "chevron-right",
-        onPress: () => {
-          logout();
-        },
-      },
+      }
     ];
   } else if (userInfo.token && userInfo.role.name === "cliente") {
     return [
@@ -149,18 +150,7 @@ function getOptionsMenu(selectComponent) {
         iconColorRight: colors.primary,
         iconNameRight: "chevron-right",
         onPress: () => navigation.navigate("pedidosClienteS"),
-      },
-      {
-        title: "Cerrar sesión",
-        iconType: "material-community",
-        iconNameLeft: "logout",
-        iconColorLeft: colors.primary,
-        iconColorRight:   colors.primary,
-        iconNameRight: "chevron-right",
-        onPress: () => {
-          logout();
-        },
-      },
+      }
     ];
   }
 }
