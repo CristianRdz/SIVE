@@ -5,9 +5,12 @@ import Products from "../../components/admin/products/Products";
 import { useTheme } from "react-native-paper";
 import { View } from "react-native";
 import { getProducts } from "../../services/products/productService";
+import Searchbar from "../../components/common/Searchbar";
+import Goback from "../../components/common/GoBack";
 
 export default function ProductosScreen() {
-  const [productos, setProductos] = useState([]);
+  // const [productos, setProductos] = useState([]);
+  const [inputValue, setInputValue] = useState("");
   const { colors } = useTheme();
 
   const getProductsFetch = async () => {
@@ -31,11 +34,12 @@ export default function ProductosScreen() {
       <View
         style={{
           flex: 1,
-          marginTop: 10,
-          marginHorizontal: "5%",
+          marginHorizontal: "2%",
           backgroundColor: colors.surface,
         }}
       >
+        <Goback title={"Productos"}/>
+        <Searchbar setInputValue={setInputValue} />
         <Products productos={productos} />
       </View>
     </ScrollView>
