@@ -3,20 +3,21 @@ import React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useTheme } from "react-native-paper";
 import { Icon, Image } from "react-native-elements";
+import { loadFirstImage } from '../../../utils/constants'
 
 export default function Products({ productos }) {
   const { colors } = useTheme();
 
   const renderProduct = (producto) => (
     <TouchableOpacity
-      key={producto.id}
+      key={producto.uid_product}
       style={[
         styles.productContainer,
         { backgroundColor: colors.surface, borderColor: colors.primary },
       ]}
     >
       <View style={styles.imageContainer}>
-        <Image source={{ uri: producto.image }} style={styles.image} />
+        <Image source={{ uri: loadFirstImage(producto) }} style={styles.imagen} />
       </View>
       <View style={styles.infoContainer}>
         <Text
@@ -93,10 +94,11 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
     overflow: "hidden",
   },
-  image: {
+  imagen: {
     width: "100%",
-    height: "100%",
+    height: 80,
     resizeMode: "cover",
+  
   },
   infoContainer: {
     flex: 1,
