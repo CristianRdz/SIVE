@@ -11,6 +11,16 @@ const loadFirstImage = (product) => {
         return 'https://i.stack.imgur.com/y9DpT.jpg'
     }
 }
+
+const loadALLImages = (product) => {
+    if (product.images.length > 0) {
+        return product.images.map(image => {
+            return `${STORAGE_URL}${image.diskReference}`
+        })
+    } else {
+        return 'https://i.stack.imgur.com/y9DpT.jpg'
+    }
+}
 export {
     API_URL,
     STORAGE_URL,

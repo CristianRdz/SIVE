@@ -39,7 +39,7 @@ export default function ProductosScreen() {
     >
       <Goback title={"Productos"} />
       <Searchbar setInputValue={setInputValue} />
-      <ScrollCategories />
+
       <Title title={"Lista de productos"} />
       <ScrollView
         showsVerticalScrollIndicator={false}
