@@ -29,6 +29,17 @@ export default function ProductosScreen() {
     getProductsFetch();
   }, []);
 
+  useEffect(() => {
+    if (inputValue !== "") {
+      const filteredProducts = productos.filter((producto) =>
+        producto.name.toLowerCase().includes(inputValue.toLowerCase())
+      );
+      setProductos(filteredProducts);
+    } else {
+      getProductsFetch();
+    }
+  }, [inputValue]);
+
   return (
     <View
       style={{

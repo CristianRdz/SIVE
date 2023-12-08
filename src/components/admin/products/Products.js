@@ -31,14 +31,23 @@ export default function Products({ productos }) {
           ${producto.price} MXN
         </Text>
       </View>
-      <View style={styles.iconContainer}>
-        <Icon
-          type="material-community"
-          name="chevron-right"
-          size={30}
-          color={colors.primary}
-          style={{ marginRight: "5%" }}
-        />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.iconContainer}>
+          <Icon
+            type="material-community"
+            name="pencil-outline"
+            size={30}
+            color={colors.primary}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.iconContainer}>
+          <Icon
+            type="material-community"
+            name="trash-can-outline"
+            size={30}
+            color={colors.primary}
+          />
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
@@ -110,5 +119,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginRight: "2%",
+  },
+
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    width: "30%",
   },
 });
