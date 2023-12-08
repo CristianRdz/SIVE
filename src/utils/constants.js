@@ -1,5 +1,5 @@
 // Obtenemos la url de la api
-const API_URL = "http://localhost:8080"
+const API_URL = "http://10.110.8.26:8080"
 
 const STORAGE_URL = `${API_URL}/api/product/loadfile/`
 // exportamos las constantes

@@ -1,39 +1,84 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View , ScrollView, Image} from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 import Toast from 'react-native-toast-message'
 import { AuthContext } from '../../../services/auth/context/AuthContext'
 import { TextInput, useTheme } from 'react-native-paper'
 import { Button, Icon } from 'react-native-elements'
 import { getTextSize } from '../../../utils/textSizes'
 import { getCategories } from '../../../services/categories/catgoriesService'
-import { ScrollView } from 'react-native-web'
 import DropdownComponent from '../../common/DropdownComponent'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function FormProduct(props) {
   const { textSize } = useContext(AuthContext)
   const textSizes = getTextSize(textSize.valor ? 'medium' : textSize)
   const { colors } = useTheme()
+  let [images, setImages] = useState([]);
+  const [cantidadImagenes, setCantidadImagenes] = useState(0);
   let { producto } = props
   const { close, fetchDataOut } = props
   const [categorias, setCategorias] = useState([])
   const [categoria, setCategoria] = useState(producto ? producto.category : '')
   const [loading, setLoading] = useState(false)
-  console.log(producto)
+ 
 
-  async function fetchLineas() {
+  const handleAddImage = async () => {
+    setImages([]);
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Es necesario otorgar permisos para acceder a la galería.");
+      return;
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+      allowsMultipleSelection: true,
+    });
+
+    if (!result.canceled) {
+      const { assets } = result;
+      assets.forEach(async (asset) => {
+        const constuirImagen = async () => {
+          const uri = asset.uri; // uri del archivo
+          const name = uri.split("/").pop();
+          const mimeType = asset.type + "/" + uri.split(".").pop();
+          const base64 = await FileSystem.readAsStringAsync(asset.uri, {
+            encoding: "base64",
+          });
+          const image = {
+            name,
+            mimeType,
+            fileBase64: base64,
+          };
+          return image;
+        };
+        const image = await constuirImagen();
+        setImages((images) => [...images, image]);
+      });
+    }
+  };
+
+  async function fetchCategories() {
     setLoading(true)
     const lineas = await getCategories()
     setCategorias(lineas)
     setLoading(false)
   }
   useEffect(() => {
-    fetchLineas()
+    fetchCategories()
   }, [])
   useEffect(() => {
     formik.setFieldValue('category', categoria)
   }, [categoria])
+
+  useEffect(() => {
+    formik.setFieldValue('images', images)
+  }, [images])
+
 
   const formik = useFormik({
     initialValues: {
@@ -47,9 +92,9 @@ export default function FormProduct(props) {
     },
     validationSchema: Yup.object({
       name: Yup.string().required('El nombre es obligatorio'),
-      price: Yup.string().required('El precio es obligatorio'),
-      priceDiscount: Yup.string(),
-      stock: Yup.string().required('El stock es obligatorio'),
+      price: Yup.string().required('El precio es obligatorio').min(0, 'El precio debe ser mayor a 0'),
+      priceDiscount: Yup.string("El precio con descuento debe ser un número").min(0, "El precio con descuento debe ser mayor a 0").max(Yup.ref('price'), "El precio con descuento debe ser menor al precio normal"),
+      stock: Yup.string().required('El stock es obligatorio').min(0, 'El stock debe ser mayor a 0'),
       category: Yup.object().required('La categoria es obligatoria'),
       description: Yup.string().required('La descripción es obligatoria'),
       images: Yup.array().required('Las imagenes son obligatorias'),
@@ -72,7 +117,7 @@ export default function FormProduct(props) {
   })
 
   return (
-    <ScrollView style={styles.viewContent}>
+    <KeyboardAwareScrollView style= {styles.viewContent}>
       <Text
         style={{
           fontSize: textSizes.Title,
@@ -87,13 +132,29 @@ export default function FormProduct(props) {
       <Text style={formik.errors.name ? { color: colors.error, fontSize: textSizes.Text } : {}}>{formik.errors.name}</Text>
       <TextInput mode='outlined' label='Precio' containerStyle={styles.input} style={{ fontSize: textSizes.Text }} onChangeText={(text) => formik.setFieldValue('price', text)} error={formik.errors.price ? true : false} value={formik.values.price} type='number' />
       <Text style={formik.errors.price ? { color: colors.error, fontSize: textSizes.Text } : {}}>{formik.errors.price}</Text>
-      <TextInput mode='outlined' label='Precio con descuento' containerStyle={styles.input} style={{ fontSize: textSizes.Text }} onChangeText={(text) => formik.setFieldValue('priceDiscount', text)} error={formik.errors.priceDiscount ? true : false} type='number' />
+      <TextInput mode='outlined' label='Precio con descuento' containerStyle={styles.input} style={{ fontSize: textSizes.Text }} onChangeText={(text) => formik.setFieldValue('priceDiscount', text)} error={formik.errors.priceDiscount ? true : false} value={formik.values.priceDiscount} type='number' />
+      <Text style={formik.errors.priceDiscount ? { color: colors.error, fontSize: textSizes.Text } : {}}>{formik.errors.priceDiscount}</Text>
       <TextInput mode='outlined' label='Stock' containerStyle={styles.input} style={{ fontSize: textSizes.Text }} onChangeText={(text) => formik.setFieldValue('stock', text)} error={formik.errors.stock ? true : false} value={formik.values.stock} type='number' />
       <Text style={formik.errors.stock ? { color: colors.error, fontSize: textSizes.Text } : {}}>{formik.errors.stock}</Text>
       <DropdownComponent data={categorias} id={'uid_category'} nombre={'name'} placeholder={'Selecciona una categoria'} setValueOut={setCategoria} selectedValue={producto ? producto.category : null} />
-      <Text style={formik.errors.linea ? { color: colors.error, fontSize: textSizes.Text } : {}}>{formik.errors.category}</Text>
+      <Text style={formik.errors.category? { color: colors.error, fontSize: textSizes.Text } : {}}>{formik.errors.category}</Text>
       <TextInput mode='outlined' label='Descripción' containerStyle={styles.input} style={{ fontSize: textSizes.Text }} onChangeText={(text) => formik.setFieldValue('description', text)} error={formik.errors.description ? true : false} value={formik.values.description} multiline={true} numberOfLines={4} />
       <Text style={formik.errors.description ? { color: colors.error, fontSize: textSizes.Text } : {}}>{formik.errors.description}</Text>
+
+       
+      <Text style={formik.errors.images ? { color: colors.error, fontSize: textSizes.Text } : {}}>{formik.errors.images}</Text>
+      
+      <Button
+        text
+        icon={<Icon type='material-community' name='image-plus' color={colors.surface} style={styles.icon} />}
+        titleStyle={{ color: colors.surface, fontSize: textSizes.Subtitle }}
+        title={'Agregar imagenes'}
+        containerStyle={styles.btnContainer}
+        buttonStyle={{ backgroundColor: colors.primary }}
+        onPress={() => handleAddImage()}
+      />
+
+    
 
       <Button
         text
@@ -119,14 +180,13 @@ export default function FormProduct(props) {
         buttonStyle={{ backgroundColor: colors.error }}
         onPress={close}
       />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   )
 }
 
 const styles = StyleSheet.create({
   viewContent: {
     borderRadius: 20,
-    padding: 10,
     margin: 10,
   },
   input: {
