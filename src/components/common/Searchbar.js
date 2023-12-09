@@ -33,7 +33,7 @@ export default function Searchbar({ setInputValue }) {
         />
         <TextInput
           style={{...styles.searchInput, color: colors.primary}}
-          placeholder="Buscar producto..."
+          placeholder="Buscar..."
           placeholderTextColor={colors.primary}
           onChangeText={(text) => hanleInputChange(text)}
           autoCapitalize="none"

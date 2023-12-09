@@ -22,6 +22,8 @@ export default function Modal(props) {
 
 const styles = StyleSheet.create({
   overlay: {
+    marginTop: 20,
+    marginBottom: 20,
     height: "auto",
     width: "90%",
     borderRadius: 20,
