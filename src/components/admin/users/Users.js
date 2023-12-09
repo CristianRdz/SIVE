@@ -6,23 +6,19 @@ import { Icon, Image, Button } from 'react-native-elements'
 import { loadFirstImage } from '../../../utils/constants'
 import Modal from '../../common/Modal'
 import { Form } from 'formik'
-import FormProduct from './FormProduct'
+import FormUser from './FormUser'
 import { remove } from 'lodash'
-import { removeProduct } from '../../../services/products/productService'
 
-export default function Products({ productos , fetchDataOut}) {
+export default function Users({ usuarios , fetchDataOut}) {
   const { colors } = useTheme()
   const openClose = () => setShowModal((prevState) => !prevState)
   const [showModal, setShowModal] = useState(false)
   const [renderComponent, setRenderComponent] = useState(null)
-  const renderProduct = (producto) => (
-    <TouchableOpacity key={producto.uid_product} style={[styles.productContainer, { backgroundColor: colors.surface, borderColor: colors.primary }]}>
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: loadFirstImage(producto) }} style={styles.imagen} />
-      </View>
+  const renderUser = (usuario) => (
+    <TouchableOpacity key={usuario.uid} style={[styles.userContainer, { backgroundColor: colors.surface, borderColor: colors.primary }]}>
       <View style={styles.infoContainer}>
-        <Text style={{ fontSize: 19, fontWeight: 'bold', color: colors.primary }}>{producto.name}</Text>
-        <Text style={{ fontSize: 15, fontWeight: 'bold', color: colors.tertiary }}>${producto.price} MXN</Text>
+        <Text style={{ fontSize: 19, fontWeight: 'bold', color: colors.primary }}>{usuario.name + ' ' + usuario.lastname}</Text>
+        <Text style={{ fontSize: 15, fontWeight: 'bold', color: colors.tertiary }}>{usuario.email}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.iconContainer}>
@@ -32,25 +28,25 @@ export default function Products({ productos , fetchDataOut}) {
             size={30}
             color={colors.primary}
             onPress={() => {
-              setRenderComponent(<FormProduct producto={producto} close={openClose} fetchDataOut={fetchDataOut} />)
+              setRenderComponent(<FormUser usuario={usuario} close={openClose} fetchDataOut={fetchDataOut} />)
               openClose()
             }}
           />
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconContainer}>
-          <Icon type='material-community' name='trash-can-outline' size={30} color={colors.primary} onPress={() => {removeProduct(producto.uid_product); fetchDataOut()}} />
+          <Icon type='material-community' name='trash-can-outline' size={30} color={colors.primary} onPress={() => {removeUser(usuario.uid); fetchDataOut()}} />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
   )
 
-  const isEmpty = productos.length === 0
+  const isEmpty = usuarios.length === 0
 
   if (isEmpty) {
     return (
       <>
-      <Button text icon={<Icon type='material-community' name='plus' color={colors.surface} style={styles.icon} />} titleStyle={{ color: colors.surface }} title={'Agregar producto'} containerStyle={{ ...styles.btnContainer, backgroundColor: colors.primary }} buttonStyle={{ backgroundColor: colors.primary }} onPress={() => {
-        setRenderComponent(<FormProduct close={openClose} fetchDataOut={fetchDataOut} />)
+      <Button text icon={<Icon type='material-community' name='plus' color={colors.surface} style={styles.icon} />} titleStyle={{ color: colors.surface }} title={'Agregar usuario'} containerStyle={{ ...styles.btnContainer, backgroundColor: colors.primary }} buttonStyle={{ backgroundColor: colors.primary }} onPress={() => {
+        setRenderComponent(<FormUser close={openClose} fetchDataOut={fetchDataOut} />)
         openClose()
       }} />
       <Modal isVisible={showModal} close={openClose}>
@@ -74,7 +70,7 @@ export default function Products({ productos , fetchDataOut}) {
             opacity: 0.5,
           }}
         >
-          No hay productos
+          No hay usuarios
         </Text>
       </View>
       </>
@@ -83,11 +79,11 @@ export default function Products({ productos , fetchDataOut}) {
 
   return (
     <View>
-      <Button text icon={<Icon type='material-community' name='plus' color={colors.surface} style={styles.icon} />} titleStyle={{ color: colors.surface }} title={'Agregar producto'} containerStyle={{ ...styles.btnContainer, backgroundColor: colors.primary }} buttonStyle={{ backgroundColor: colors.primary }} onPress={() => {
-        setRenderComponent(<FormProduct close={openClose} fetchDataOut={fetchDataOut} />)
+      <Button text icon={<Icon type='material-community' name='plus' color={colors.surface} style={styles.icon} />} titleStyle={{ color: colors.surface }} title={'Agregar usuario'} containerStyle={{ ...styles.btnContainer, backgroundColor: colors.primary }} buttonStyle={{ backgroundColor: colors.primary }} onPress={() => {
+        setRenderComponent(<FormUser close={openClose} fetchDataOut={fetchDataOut} />)
         openClose()
       }} />
-      {productos.map((producto) => renderProduct(producto))}
+      {usuarios.map((usuario) => render(usuario))}
       <Modal isVisible={showModal} close={openClose}>
         {renderComponent}
       </Modal>
@@ -96,7 +92,7 @@ export default function Products({ productos , fetchDataOut}) {
 }
 
 const styles = StyleSheet.create({
-  productContainer: {
+  userContainer: {
     flexDirection: 'row',
     height: 80,
     width: '100%',

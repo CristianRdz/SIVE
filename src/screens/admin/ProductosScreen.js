@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, RefreshControl } from "react-native";
 import React, { useState, useEffect } from "react";
 import Products from "../../components/admin/products/Products";
 import { useTheme } from "react-native-paper";
@@ -15,6 +15,8 @@ export default function ProductosScreen() {
   const [inputValue, setInputValue] = useState("");
   const [productos, setProductos] = useState([]);
   const { colors } = useTheme();
+  const [refreshing, setRefreshing] = useState(false)
+
 
   const getProductsFetch = async () => {
     try {
@@ -28,6 +30,12 @@ export default function ProductosScreen() {
   useEffect(() => {
     getProductsFetch();
   }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true)
+    getProductsFetch()
+    setRefreshing(false)
+  }
 
   useEffect(() => {
     if (inputValue !== "") {
@@ -53,10 +61,15 @@ export default function ProductosScreen() {
 
       <Title title={"Lista de productos"} />
       <ScrollView
+        //make reload when scroll
+        refreshControl= {
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: colors.surface , height: 10}}/>
+        }
         showsVerticalScrollIndicator={false}
         style={{ backgroundColor: colors.surface }}
       >
-        <Products productos={productos} />
+        <Products productos={productos} fetchDataOut={getProductsFetch} />
+
       </ScrollView>
     </View>
   );

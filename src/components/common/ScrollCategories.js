@@ -8,11 +8,25 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useTheme } from "react-native-paper";
-import { categories } from "../../data/categories";
+import { getCategories } from "../../services/categories/catgoriesService";
 
 export default function ScrollCategories() {
   const { colors } = useTheme();
   const navigation = useNavigation();
+  const [categories, setCategories] = useState([]);
+
+  async function fetchCategories() {
+    try {
+      const response = await getCategories();
+      setCategories(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   return (
     <View style={styles.viewContainer}>
