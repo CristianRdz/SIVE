@@ -6,11 +6,13 @@ import { Icon, Image } from "react-native-elements";
 import { loadFirstImage } from "../../../utils/constants";
 import { getTextSize } from "../../../utils/textSizes";
 import { AuthContext } from "../../../services/auth/context/AuthContext";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Products({ productos }) {
   const { colors } = useTheme();
   const { textSize } = useContext(AuthContext);
   const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
+  const navigation = useNavigation();
   const renderProduct = (producto) => (
     <TouchableOpacity
       key={producto.uid_producto}
@@ -18,21 +20,52 @@ export default function Products({ productos }) {
         styles.productContainer,
         { backgroundColor: colors.surface, borderColor: colors.primary },
       ]}
+      onPress={() => {
+        navigation.navigate("producto", {
+          producto: producto,
+        });
+      }}
     >
       <View style={styles.imageContainer}>
-        <Image source={{ uri: loadFirstImage(producto) }} style={styles.image} />
+        <Image
+          source={{ uri: loadFirstImage(producto) }}
+          style={styles.image}
+        />
       </View>
       <View style={styles.infoContainer}>
         <Text
-          style={{ fontSize: textSizes.Text, fontWeight: "bold" ,color: colors.primary }}
+          style={{
+            fontSize: textSizes.Text,
+            fontWeight: "bold",
+            color: colors.primary,
+          }}
         >
           {producto.name}
         </Text>
-        <Text
-          style={{ fontSize: textSizes.Small, fontWeight: "bold" ,color: colors.tertiary }}
-        >
-          ${producto.price} MXN
-        </Text>
+
+        <View style={styles.preciosContainer}>
+          <Text
+            style={{
+              ...styles.priceText,
+              color: colors.primary,
+              fontSize: textSizes.Text,
+            }}
+          >
+            {"$ " + producto.price + " MXN"}
+          </Text>
+
+          {producto.priceDiscount > 0 && (
+            <Text
+              style={{
+                ...styles.precioAnterior,
+                color: colors.tertiary,
+                fontSize: textSizes.Text,
+              }}
+            >
+              {"$ " + producto.priceDiscount + " MXN"}
+            </Text>
+          )}
+        </View>
       </View>
       <View style={styles.iconContainer}>
         <Icon
@@ -100,13 +133,28 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
-    resizeMode: "cover",
+    resizeMode: "contain",
   },
   infoContainer: {
     flex: 1,
     marginHorizontal: "3%",
     marginVertical: "1%",
     justifyContent: "space-evenly",
+  },
+  priceText: {
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  precioAnterior: {
+    fontWeight: "bold",
+    textDecorationLine: "line-through",
+    marginBottom: 10,
+    marginLeft: 5,
+  },
+  preciosContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    marginBottom: 5,
   },
   iconContainer: {
     justifyContent: "center",

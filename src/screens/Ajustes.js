@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Card, useTheme } from "react-native-paper";
+import { Card, useTheme, SegmentedButtons} from "react-native-paper";
 import { temas , tamanios } from "../data/themes";
 import { AuthContext } from "../services/auth/context/AuthContext";
 import DropdownComponent from "../components/common/DropdownComponent";
@@ -19,23 +19,29 @@ export default function Ajustes() {
       <Text style={{ fontSize: textSizes.Title, fontWeight: "bold", color: colors.primary }}>
         Temas de la aplicación
       </Text>
-      <DropdownComponent
-        selectedValue={temas.find((x) => x.valor === theme)}
-        data={temas}
-        nombre="nombre"
-        id="id"
-        setValueOut={setTheme}
+      <SegmentedButtons
+      style={{margin: 10}}
+        value={theme}
+        onValueChange={(value) => setTheme(value)}
+        buttons={[
+          { label: 'Oscuro', value: 'dark' },
+          { label: 'Claro', value: 'light' },
+          { label: 'Sistema', value: 'system' },
+        ]}
       />
 
       <Text style={{ fontSize: textSizes.Title, fontWeight: "bold", color: colors.primary }}>
         Tamaño de letra
       </Text>
-      <DropdownComponent
-        data={tamanios}
-        selectedValue={tamanios.find((x) => x.valor === textSize)}
-        nombre="nombre"
-        id="id"
-        setValueOut={changeTextSize}
+      <SegmentedButtons
+      style={{margin: 10}}
+        value={textSize}
+        onValueChange={(value) => changeTextSize(value)}
+        buttons={[
+          { label: 'Pequeño', value: 'small' },
+          { label: 'Mediano', value: 'medium' },
+          { label: 'Grande', value: 'large' },
+        ]}
       />
       </Card>
 

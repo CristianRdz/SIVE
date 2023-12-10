@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../services/auth/context/AuthContext";
 import Loading from "../common/Loading";
 import { getUser } from "../../services/usuarios/usuarioService.js";
-import { useTheme } from "react-native-paper";
+import { useTheme, Avatar } from "react-native-paper";
 import CambiarContra from "./CambiarContra.js";
 import FormUser from "../admin/users/FormUser.js";
 
@@ -56,10 +56,10 @@ export default function OpcionesPerfil(props) {
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <Loading isVisible={isLoading} text="Cargando..." />
-      <Icon type="material-community" name="account-circle" size={100} color={colors.primary} style={{ alignSelf: "center" }} />
+      <Avatar.Text size={100} label={response.name ? response.name[0] : "" } style={{ alignSelf: "center", marginTop: 20 }} />
       {response.name ? (
         <Text style={{ ...styles.mensaje, color: colors.primary }}>
-          Bienvenido {response.name}
+          {response.name} {response.lastname} {response.surname}
         </Text>
       ) : (
         <Text style={{ ...styles.mensaje, color: colors.primary }}>

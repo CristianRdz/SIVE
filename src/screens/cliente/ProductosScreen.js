@@ -40,16 +40,21 @@ export default function ProductosScreen() {
 
 
   useEffect(() => {
-    if (selectedCategories.length > 0 || inputValue !== "") {
-      const filteredProducts = productos.filter((producto) =>
-        (selectedCategories.length === 0 || selectedCategories.some(item => item.uid_category === producto.category.uid_category )) &&
+    const filterProducts = () => {
+      return productos.filter((producto) =>
+        (selectedCategories.length === 0 || selectedCategories.some(item => item.uid_category === producto.category.uid_category)) &&
         (inputValue === "" || producto.name.toLowerCase().includes(inputValue.toLowerCase()))
       );
+    };
+  
+    if (selectedCategories.length > 0 || inputValue !== "") {
+      const filteredProducts = filterProducts();
       setProductos(filteredProducts);
     } else {
-      getProductsFetch();
+      getProductsFetch(); 
     }
   }, [selectedCategories, inputValue]);
+  
 
   return (
     <View
