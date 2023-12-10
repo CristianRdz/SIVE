@@ -16,12 +16,13 @@ import {
   saveProduct,
   updateProduct,
 } from "../../../services/products/productService";
+import { loadImage } from "../../../utils/constants";
 
 export default function FormProduct(props) {
   const { textSize } = useContext(AuthContext);
   const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
   const { colors } = useTheme();
-  let [images, setImages] = useState([]);
+  let [images, setImages] = useState(producto ? producto.images : []);
   const [cantidadImagenes, setCantidadImagenes] = useState(0);
   let { producto } = props;
   const { close, fetchDataOut } = props;
@@ -110,7 +111,7 @@ export default function FormProduct(props) {
       category: Yup.object().required("La categoria es obligatoria"),
       description: Yup.string().required("La descripción es obligatoria"),
       // El array debe tener al menos una imagen
-      images: Yup.array().required("Las imagenes son obligatorias").min(1 , "Las imagenes son obligatorias"),
+      images: Yup.array().required("Las imagenes son obligatorias").min(producto ? 0 : 1, "Las imagenes son obligatorias"),
     }),
 
     validateOnChange: false,
@@ -321,6 +322,14 @@ export default function FormProduct(props) {
         showsHorizontalScrollIndicator={false}
         style={{ marginVertical: 10 }}
       >
+        {producto &&
+          producto.images.map((image, index) => (
+            <Image
+              key={index}
+              source={{ uri: loadImage(image) }}
+              style={{ width: 100, height: 100, marginHorizontal: 10 }}
+            />
+          ))}
         {images.map((image, index) => (
           <Image
             key={index}
@@ -328,6 +337,7 @@ export default function FormProduct(props) {
             style={{ width: 100, height: 100, marginHorizontal: 10 }}
           />
         ))}
+
       </ScrollView>
       <Text
         style={
@@ -356,6 +366,7 @@ export default function FormProduct(props) {
         }}
         buttonStyle={{ backgroundColor: colors.primary }}
         onPress={formik.handleSubmit}
+        loading={formik.isSubmitting}
       />
       <Button
         text
@@ -375,6 +386,7 @@ export default function FormProduct(props) {
         }}
         buttonStyle={{ backgroundColor: colors.error }}
         onPress={close}
+        
       />
     </KeyboardAwareScrollView>
   );
@@ -398,12 +410,5 @@ const styles = StyleSheet.create({
     width: "95%",
     alignSelf: "center",
     borderRadius: 10,
-  },
-  image: {
-    resizeMode: "contain",
-    width: "100%",
-    height: 100,
-    alignSelf: "center",
-    marginVertical: 20,
   },
 });

@@ -18,6 +18,7 @@ export default function FormUser(props) {
   const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
   const { colors } = useTheme();
   let { usuario } = props;
+  const { isFromProfile } = props;
   const { close, fetchDataOut } = props;
   const [roles, setRoles] = useState([]);
   const [role, setRole] = useState(usuario ? usuario.role : "");
@@ -188,7 +189,7 @@ export default function FormUser(props) {
           marginBottom: 10,
         }}
       >
-        {usuario ? "Editar usuario" : "Nuevo usuario"}
+        {isFromProfile ? "Editar perfil" : usuario ? "Editar usuario" : "Nuevo usuario"}
       </Text>
 
 
@@ -253,7 +254,9 @@ export default function FormUser(props) {
       <Text style={{ fontSize: textSizes.Text, color: colors.error }}>
         {formik.errors.phoneNumber}
       </Text>
-      <DropdownComponent
+      {isFromProfile ? null : (
+        <>
+        <DropdownComponent
         data={roles}
         id={"uid"}
         nombre={"name"}
@@ -264,6 +267,8 @@ export default function FormUser(props) {
       <Text style={{ fontSize: textSizes.Text, color: colors.error }}>
         {formik.errors.role}
       </Text>
+      </>
+      )}
 
       {!usuario ? (
         <>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   ScrollView,
@@ -9,11 +9,16 @@ import {
 } from "react-native";
 import { useTheme } from "react-native-paper";
 import { getCategories } from "../../services/categories/catgoriesService";
+import { AuthContext } from "../../services/auth/context/AuthContext";
+import { getTextSize } from "../../utils/textSizes";
 
-export default function ScrollCategories() {
+export default function ScrollCategories(props) {
   const { colors } = useTheme();
-  const navigation = useNavigation();
+  const { textSize } = useContext(AuthContext);
+  const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
+  const { setCategoriesOut } = props;
   const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   async function fetchCategories() {
     try {
@@ -33,12 +38,25 @@ export default function ScrollCategories() {
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         {categories.map((category) => (
           <TouchableOpacity
-            key={category.id}
+            key={category.uid_category}
             activeOpacity={0.6}
-            style={[styles.container, { backgroundColor: colors.primary }]}
+            style={[styles.container, { backgroundColor: selectedCategories.includes(category) ? colors.primary : colors.secondary }]}
+            onPress={() => {
+              if (selectedCategories.includes(category)) {
+                const filteredCategories = selectedCategories.filter(
+                  (selectedCategory) => selectedCategory !== category
+                );
+                setSelectedCategories(filteredCategories);
+                setCategoriesOut(filteredCategories);
+              } else {
+                const updatedCategories = [...selectedCategories, category];
+                setSelectedCategories(updatedCategories);
+                setCategoriesOut(updatedCategories);
+              }
+            }}
           >
             <Text
-              style={[styles.text, { color: colors.surface }]}
+              style={[styles.text, { color: colors.surface , fontSize: textSizes.Small}]}
               numberOfLines={1}
             >
               {category.name}
@@ -65,7 +83,6 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: "500",
     textAlign: "center",
-    fontSize: 13,
     paddingHorizontal: 20,
   },
 });

@@ -1,12 +1,16 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { useTheme, Card } from "react-native-paper";
 import { Icon, colors } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../../services/auth/context/AuthContext";
+import { getTextSize } from "../../utils/textSizes";
 
 export default function InicioAdmin() {
   const { colors } = useTheme();
+  const { textSize } = useContext(AuthContext);
+  const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
   const navigation = useNavigation();
 
   return (
@@ -28,7 +32,7 @@ export default function InicioAdmin() {
         }}
       >
         <Text
-          style={{ fontSize: 20, fontWeight: "bold", color: colors.primary }}
+          style={{ fontSize: textSizes.Title, fontWeight: "bold" ,color: colors.primary }}
         >
           ¡Bienvenido!
         </Text>
@@ -57,12 +61,12 @@ export default function InicioAdmin() {
           >
             <Text
               style={{
-                fontSize: 20,
+                fontSize: textSizes.Subtitle,
                 fontWeight: "bold",
                 color: colors.primary,
               }}
             >
-              Artículos
+              Productos
             </Text>
             <Icon
               type="material-community"
@@ -95,7 +99,7 @@ export default function InicioAdmin() {
           >
             <Text
               style={{
-                fontSize: 20,
+                fontSize: textSizes.Subtitle,
                 fontWeight: "bold",
                 color: colors.primary,
               }}
@@ -133,7 +137,7 @@ export default function InicioAdmin() {
           >
             <Text
               style={{
-                fontSize: 20,
+                fontSize: textSizes.Subtitle,
                 fontWeight: "bold",
                 color: colors.primary,
               }}

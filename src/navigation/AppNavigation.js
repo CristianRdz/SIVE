@@ -15,10 +15,13 @@ import PerfilStack from "./PerfilStack";
 import SplashScreen from "../screens/SplashScreen";
 import AjustesStack from "./AjustesStack";
 import { View } from "react-native";
+import ProductoStack from "./cliente/ProductoStack";
+import { getTextSize } from "../utils/textSizes";
 
 const CustomDrawerContent = (props) => {
   const { colors } = useTheme();
-  const { userInfo, logout } = useContext(AuthContext);
+  const { userInfo, logout, textSize } = useContext(AuthContext);
+  const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
 
   return (
     <DrawerContentScrollView {...props}>
@@ -45,7 +48,11 @@ const CustomDrawerContent = (props) => {
                 color={colors.primary}
               />
             )}
-            labelStyle={{ color: colors.primary }}
+            labelStyle={{
+              color: colors.primary,
+              fontSize: textSizes.Text,
+              fontWeight: "bold",
+            }}
           />
         </>
       )}
@@ -55,7 +62,8 @@ const CustomDrawerContent = (props) => {
 
 export default function AppNavigation() {
   const { colors } = useTheme();
-  const { userInfo, splashLoading } = useContext(AuthContext);
+  const { userInfo, splashLoading, textSize } = useContext(AuthContext);
+  const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
   const Drawer = createDrawerNavigator();
 
   return (
@@ -77,6 +85,13 @@ export default function AppNavigation() {
         drawerActiveTintColor: colors.surface,
         drawerInactiveTintColor: colors.primary,
         headerTintColor: colors.secondary,
+
+        headerTitleAlign: "center",
+        headerTitleStyle: {
+          fontSize: textSizes.Title,
+          fontWeight: "bold",
+          color: colors.primary,
+        },
       })}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
@@ -90,17 +105,35 @@ export default function AppNavigation() {
         <>
           <Drawer.Screen
             name="inicioAdmin"
-            options={{ title: "Inicio" }}
+            options={{
+              title: "Inicio",
+              drawerLabelStyle: {
+                fontSize: textSizes.Text,
+                fontWeight: "bold",
+              },
+            }}
             component={AdminStack}
           />
           <Drawer.Screen
             name="perfilAdmin"
-            options={{ title: "Mi perfil" }}
+            options={{
+              title: "Mi perfil",
+              drawerLabelStyle: {
+                fontSize: textSizes.Text,
+                fontWeight: "bold",
+              },
+            }}
             component={PerfilStack}
           />
           <Drawer.Screen
             name="ajustes"
-            options={{ title: "Preferencias del sistema" }}
+            options={{
+              title: "Temas",
+              drawerLabelStyle: {
+                fontSize: textSizes.Text,
+                fontWeight: "bold",
+              },
+            }}
             component={AjustesStack}
           />
         </>
@@ -108,17 +141,35 @@ export default function AppNavigation() {
         <>
           <Drawer.Screen
             name="inicioCliente"
-            options={{ title: "Inicio" }}
+            options={{
+              title: "Inicio",
+              drawerLabelStyle: {
+                fontSize: textSizes.Text,
+                fontWeight: "bold",
+              },
+            }}
             component={ClientStack}
           />
           <Drawer.Screen
-            name="perfilCliente"
-            options={{ title: "Mi perfil" }}
-            component={PerfilStack}
+            name="productosCliente"
+            options={{
+              title: "Productos",
+              drawerLabelStyle: {
+                fontSize: textSizes.Text,
+                fontWeight: "bold",
+              },
+            }}
+            component={ProductoStack}
           />
           <Drawer.Screen
             name="ajustes"
-            options={{ title: "Preferencias del sistema" }}
+            options={{
+              title: "Temas",
+              drawerLabelStyle: {
+                fontSize: textSizes.Text,
+                fontWeight: "bold",
+              },
+            }}
             component={AjustesStack}
           />
         </>
@@ -126,12 +177,24 @@ export default function AppNavigation() {
         <>
           <Drawer.Screen
             name="login"
-            options={{ title: "Iniciar Sesión" }}
+            options={{
+              title: "Iniciar Sesión",
+              drawerLabelStyle: {
+                fontSize: textSizes.Text,
+                fontWeight: "bold",
+              },
+            }}
             component={AuthStack}
           />
           <Drawer.Screen
             name="ajustes"
-            options={{ title: "Preferencias del sistema" }}
+            options={{
+              title: "Temas",
+              drawerLabelStyle: {
+                fontSize: textSizes.Text,
+                fontWeight: "bold",
+              },
+            }}
             component={AjustesStack}
           />
         </>
@@ -160,8 +223,8 @@ function iconos(route, color, size) {
   if (route.name === "usuariosAdmin") {
     name = "users";
   }
-  if (route.name === "buscadorCliente") {
-    name = "search";
+  if (route.name === "productosCliente") {
+    name = "shopping";
   }
   if (route.name === "carritoCliente") {
     name = "shopping-cart";
@@ -179,7 +242,7 @@ function iconos(route, color, size) {
     name = "loading";
   }
   if (route.name === "ajustes") {
-    name = "cog";
+    name = "theme-light-dark";
   }
 
   return (

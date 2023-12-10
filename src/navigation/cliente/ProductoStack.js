@@ -1,15 +1,14 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Header from "../../components/common/Header";
-import InicioCliente from "../../components/cliente/InicioCliente";
+import ProductosScreen from "../../screens/cliente/ProductosScreen";
 
 const Stack = createNativeStackNavigator();
-export default function ClientStack() {
+export default function ProductoStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="inicioClienteS"
-        component={InicioCliente}
+        name="buscar-productos"
+        component={ProductosScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

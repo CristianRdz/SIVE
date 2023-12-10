@@ -72,6 +72,9 @@ export default function LoginForm() {
         onChangeText={(text) => formik.setFieldValue("username", text)}
         error={formik.errors.username ? true : false}
       />
+      <Text style={{ fontSize: textSizes.Text, color: colors.error }}>
+        {formik.errors.username}
+      </Text>
       <TextInput
         mode="outlined"
         label="Contraseña"
@@ -95,6 +98,9 @@ export default function LoginForm() {
         onChangeText={(text) => formik.setFieldValue("password", text)}
         error={formik.errors.password ? true : false}
       />
+      <Text style={{ fontSize: textSizes.Text, color: colors.error }}>
+        {formik.errors.password}
+      </Text>
       <Button
         text
         icon={

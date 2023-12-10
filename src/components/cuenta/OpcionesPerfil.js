@@ -9,10 +9,11 @@ import Loading from "../common/Loading";
 import { getUser } from "../../services/usuarios/usuarioService.js";
 import { useTheme } from "react-native-paper";
 import CambiarContra from "./CambiarContra.js";
+import FormUser from "../admin/users/FormUser.js";
 
 export default function OpcionesPerfil(props) {
   const { colors } = useTheme();
-  const { fetchDataOut, setLocalLoading } = props;
+  const { setLocalLoading } = props;
   const { userInfo, isLoading, logout } = useContext(AuthContext);
   const [response, setResponse] = useState({});
 
@@ -36,12 +37,13 @@ export default function OpcionesPerfil(props) {
           <CambiarContra
             usuario={response}
             close={openClose}
-            fetchDataOut={fetchDataOut}
           />
         );
         break;
       case "perfil":
-        setRenderComponent(<Text>Editar perfil</Text>);
+        setRenderComponent(
+          <FormUser close={openClose} fetchDataOut={fetchData} isFromProfile={true} usuario={response} />
+        );
         break;
       default:
         setRenderComponent(<Text>default</Text>);
@@ -54,6 +56,7 @@ export default function OpcionesPerfil(props) {
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
       <Loading isVisible={isLoading} text="Cargando..." />
+      <Icon type="material-community" name="account-circle" size={100} color={colors.primary} style={{ alignSelf: "center" }} />
       {response.name ? (
         <Text style={{ ...styles.mensaje, color: colors.primary }}>
           Bienvenido {response.name}

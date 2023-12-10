@@ -30,7 +30,7 @@ export const removeUser= async (id) => {
     if (userInfo.identKey === id) {
       return null;
     }
-    const usuarios = await getUsuarios();
+    const usuarios = await getUsers();
     if (usuarios.length === 1) {
       return null;
     }

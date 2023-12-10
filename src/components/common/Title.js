@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text } from "react-native";
 import { useTheme } from "react-native-paper";
+import { AuthContext } from "../../services/auth/context/AuthContext";
+import { getTextSize } from "../../utils/textSizes";
 
 export default function Title({ title, goBack }) {
   const { colors } = useTheme();
-  
+  const { textSize } = useContext(AuthContext);
+  const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
   return (
     <Text
       style={
         goBack
-          ? [styles.goBack, { color: colors.primary }]
-          : [styles.title, { color: colors.primary }]
+          ? [styles.goBack, { color: colors.primary , fontSize: textSizes.Title}]
+          : [styles.title, { color: colors.primary , fontSize: textSizes.Title}]
       }
     >
       {title}
@@ -20,11 +23,9 @@ export default function Title({ title, goBack }) {
 
 const styles = StyleSheet.create({
   goBack: {
-    fontSize: 24,
     fontWeight: "bold",
   },
   title: {
-    fontSize: 24,
     fontWeight: "bold",
     marginHorizontal: 15,
     marginBottom: 10,

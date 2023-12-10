@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useTheme } from 'react-native-paper'
 import { Icon, Image, Button } from 'react-native-elements'
@@ -9,9 +9,13 @@ import { Form } from 'formik'
 import FormProduct from './FormProduct'
 import { remove } from 'lodash'
 import { removeProduct } from '../../../services/products/productService'
+import { AuthContext } from '../../../services/auth/context/AuthContext'
+import { getTextSize } from '../../../utils/textSizes'
 
 export default function Products({ productos , fetchDataOut}) {
   const { colors } = useTheme()
+  const { textSize } = useContext(AuthContext);
+  const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
   const openClose = () => setShowModal((prevState) => !prevState)
   const [showModal, setShowModal] = useState(false)
   const [renderComponent, setRenderComponent] = useState(null)
@@ -21,8 +25,16 @@ export default function Products({ productos , fetchDataOut}) {
         <Image source={{ uri: loadFirstImage(producto) }} style={styles.imagen} />
       </View>
       <View style={styles.infoContainer}>
-        <Text style={{ fontSize: 19, fontWeight: 'bold', color: colors.primary }}>{producto.name}</Text>
-        <Text style={{ fontSize: 15, fontWeight: 'bold', color: colors.tertiary }}>${producto.price} MXN</Text>
+      <Text
+          style={{ fontSize: textSizes.Text, fontWeight: "bold" ,color: colors.primary }}
+        >
+          {producto.name}
+        </Text>
+        <Text
+          style={{ fontSize: textSizes.Small, fontWeight: "bold" ,color: colors.tertiary }}
+        >
+          ${producto.price} MXN
+        </Text>
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.iconContainer}>
@@ -83,7 +95,7 @@ export default function Products({ productos , fetchDataOut}) {
 
   return (
     <View>
-      <Button text icon={<Icon type='material-community' name='plus' color={colors.surface} style={styles.icon} />} titleStyle={{ color: colors.surface }} title={'Agregar producto'} containerStyle={{ ...styles.btnContainer, backgroundColor: colors.primary }} buttonStyle={{ backgroundColor: colors.primary }} onPress={() => {
+      <Button text icon={<Icon type='material-community' name='plus' color={colors.surface} style={styles.icon} />} titleStyle={{ color: colors.surface, fontSize: textSizes.Subtitle }} title={'Agregar producto'} containerStyle={{ ...styles.btnContainer, backgroundColor: colors.primary }} buttonStyle={{ backgroundColor: colors.primary }} onPress={() => {
         setRenderComponent(<FormProduct close={openClose} fetchDataOut={fetchDataOut} />)
         openClose()
       }} />

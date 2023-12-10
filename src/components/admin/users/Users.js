@@ -69,8 +69,9 @@ export default function Users({ usuarios, fetchDataOut }) {
                   text1: "Usuario eliminado",
                   text2: "El usuario se ha eliminado correctamente",
                 });
-                fetchDataOut();
+                await fetchDataOut();
               } else {
+                await fetchDataOut();
                 Toast.show({
                   type: "error",
                   text1: "Error",

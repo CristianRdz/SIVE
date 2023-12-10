@@ -14,7 +14,7 @@ export default function CambiarContra(props) {
   const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
   const { colors } = useTheme();
   let { usuario } = props;
-  const { close, fetchDataOut } = props;
+  const { close } = props;
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -111,6 +111,9 @@ export default function CambiarContra(props) {
         onChangeText={(text) => formik.setFieldValue("newPassword", text)}
         error={formik.errors.newPassword ? true : false}
       />
+      <Text style={{ fontSize: textSizes.Text, color: colors.error }}>
+        {formik.errors.newPassword}
+      </Text>
       <TextInput
         mode="outlined"
         label="Confirmar nueva contraseña"
@@ -133,6 +136,9 @@ export default function CambiarContra(props) {
         onChangeText={(text) => formik.setFieldValue("confirmPassword", text)}
         error={formik.errors.confirmPassword ? true : false}
       />
+      <Text style={{ fontSize: textSizes.Text, color: colors.error }}>
+        {formik.errors.confirmPassword}
+      </Text>
       <Button
         text
         icon={

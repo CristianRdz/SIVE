@@ -21,8 +21,15 @@ const loadALLImages = (product) => {
         return 'https://i.stack.imgur.com/y9DpT.jpg'
     }
 }
+
+const loadImage = (image) => {
+    return image ? `${STORAGE_URL}${image.diskReference}` : 'https://i.stack.imgur.com/y9DpT.jpg'
+}   
+
 export {
     API_URL,
     STORAGE_URL,
-    loadFirstImage
+    loadFirstImage,
+    loadALLImages,
+    loadImage
 }
