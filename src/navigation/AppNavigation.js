@@ -17,6 +17,7 @@ import AjustesStack from "./AjustesStack";
 import { View } from "react-native";
 import ProductoStack from "./cliente/ProductoStack";
 import { getTextSize } from "../utils/textSizes";
+import CarritoStack from "./cliente/CarritoStack";
 
 const CustomDrawerContent = (props) => {
   const { colors } = useTheme();
@@ -150,6 +151,19 @@ export default function AppNavigation() {
             }}
             component={ClientStack}
           />
+
+          <Drawer.Screen
+            name="perfilCliente"
+            options={{
+              title: "Mi perfil",
+              drawerLabelStyle: {
+                fontSize: textSizes.Text,
+                fontWeight: "bold",
+              },
+            }}
+            component={PerfilStack}
+          />
+
           <Drawer.Screen
             name="productosCliente"
             options={{
@@ -160,6 +174,17 @@ export default function AppNavigation() {
               },
             }}
             component={ProductoStack}
+          />
+          <Drawer.Screen
+            name="carritoCliente"
+            options={{
+              title: "Carrito",
+              drawerLabelStyle: {
+                fontSize: textSizes.Text,
+                fontWeight: "bold",
+              },
+            }}
+            component={CarritoStack}
           />
           <Drawer.Screen
             name="ajustes"
@@ -227,7 +252,7 @@ function iconos(route, color, size) {
     name = "shopping";
   }
   if (route.name === "carritoCliente") {
-    name = "shopping-cart";
+    name = "cart";
   }
   if (route.name === "login") {
     name = "account";

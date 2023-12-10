@@ -7,7 +7,7 @@ import Searchbar from "../../components/common/Searchbar";
 import Goback from "../../components/common/GoBack";
 import ScrollCategories from "../../components/common/ScrollCategories";
 import Title from "../../components/common/Title";
-import { set } from 'lodash'
+import { set } from "lodash";
 import Products from "../../components/cliente/products/Products";
 
 export default function ProductosScreen() {
@@ -15,9 +15,10 @@ export default function ProductosScreen() {
   const [inputValue, setInputValue] = useState("");
   const [productos, setProductos] = useState([]);
   const { colors } = useTheme();
-  const [refreshing, setRefreshing] = useState(false)
-  const [selectedCategories, setSelectedCategories] = useState([]);
 
+
+  const [refreshing, setRefreshing] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const getProductsFetch = async () => {
     try {
@@ -33,28 +34,31 @@ export default function ProductosScreen() {
   }, []);
 
   const onRefresh = () => {
-    setRefreshing(true)
-    getProductsFetch()
-    setRefreshing(false)
-  }
-
+    setRefreshing(true);
+    getProductsFetch();
+    setRefreshing(false);
+  };
 
   useEffect(() => {
     const filterProducts = () => {
-      return productos.filter((producto) =>
-        (selectedCategories.length === 0 || selectedCategories.some(item => item.uid_category === producto.category.uid_category)) &&
-        (inputValue === "" || producto.name.toLowerCase().includes(inputValue.toLowerCase()))
+      return productos.filter(
+        (producto) =>
+          (selectedCategories.length === 0 ||
+            selectedCategories.some(
+              (item) => item.uid_category === producto.category.uid_category
+            )) &&
+          (inputValue === "" ||
+            producto.name.toLowerCase().includes(inputValue.toLowerCase()))
       );
     };
-  
+
     if (selectedCategories.length > 0 || inputValue !== "") {
       const filteredProducts = filterProducts();
       setProductos(filteredProducts);
     } else {
-      getProductsFetch(); 
+      getProductsFetch();
     }
   }, [selectedCategories, inputValue]);
-  
 
   return (
     <View
@@ -71,14 +75,17 @@ export default function ProductosScreen() {
       <Title title={"Lista de productos"} />
       <ScrollView
         //make reload when scroll
-        refreshControl= {
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} style={{ backgroundColor: colors.surface , height: 10}}/>
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            style={{ backgroundColor: colors.surface, height: 10 }}
+          />
         }
         showsVerticalScrollIndicator={false}
         style={{ backgroundColor: colors.surface }}
       >
         <Products productos={productos} fetchDataOut={getProductsFetch} />
-
       </ScrollView>
     </View>
   );
