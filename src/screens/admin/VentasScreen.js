@@ -22,7 +22,8 @@ export default function VentasScreen() {
 
   const getSalesFetch = async () => {
     try {
-      if (userInfo.role === "admin") {
+      if (userInfo.role.name === "admin") {
+
         const data = await getSales();
         setVentas(data);
       }else{
@@ -117,9 +118,9 @@ export default function VentasScreen() {
         backgroundColor: colors.surface,
       }}
     >
-      <Goback title={userInfo.role === "admin" ? "Ventas" : "Mis pedidos"} />
+      <Goback title={userInfo.role.name === "admin" ? "Ventas" : "Mis pedidos"} />
       <FiltersSales />
-      <Title title={userInfo.role === "admin" ? "Todas las ventas" : "Mis pedidos"} />
+      <Title title={userInfo.role.name === "admin" ? "Todas las ventas" : "Mis pedidos"} />
       <ScrollView
         refreshControl={
           <RefreshControl
