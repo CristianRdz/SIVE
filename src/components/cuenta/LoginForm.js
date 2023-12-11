@@ -128,6 +128,14 @@ export default function LoginForm() {
       >
         ¿Olvidaste tu contraseña?
       </Text>
+      <Text
+        style={{ ...styles.registerLink, color: colors.primary , fontSize: textSizes.Subtitle}}
+        onPress={() => {
+          navigation.navigate("resetS");
+        }}
+      >
+        Restablecer Contraseña
+      </Text>
     </Card>
   );
 }

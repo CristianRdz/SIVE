@@ -68,3 +68,12 @@ export async function recoverPassword(email) {
       return false;
   }
 }
+export async function resetPassword(values) {
+  try {
+      const response = await fetchClient("/api/auth/change-password/", "POST", values);
+      return response;
+  } catch (error) {
+      console.log(error);
+      return false;
+  }
+}
