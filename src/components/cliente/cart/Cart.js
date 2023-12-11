@@ -46,7 +46,30 @@ export default function Cart({ elementCarts, fetchDataOut }) {
         </Text>
 
         <View style={styles.preciosContainer}>
-          <Text
+
+        {elementCart.product.priceDiscount > 0 && (
+          <>
+            <Text
+            style={{
+              ...styles.priceText,
+              color: colors.primary,
+              fontSize: textSizes.Text,
+            }}
+          >
+            {"$ " + elementCart.product.priceDiscount + " MXN"}
+          </Text>
+            <Text
+              style={{
+                ...styles.precioAnterior,
+                color: colors.tertiary,
+                fontSize: textSizes.Text,
+              }}
+            >
+              {"$ " + elementCart.product.price + " MXN"}
+            </Text>
+            </>
+          ) || (
+            <Text
             style={{
               ...styles.priceText,
               color: colors.primary,
@@ -55,18 +78,12 @@ export default function Cart({ elementCarts, fetchDataOut }) {
           >
             {"$ " + elementCart.product.price + " MXN"}
           </Text>
-
-          {elementCart.product.priceDiscount > 0 && (
-            <Text
-              style={{
-                ...styles.precioAnterior,
-                color: colors.tertiary,
-                fontSize: textSizes.Text,
-              }}
-            >
-              {"$ " + elementCart.product.priceDiscount + " MXN"}
-            </Text>
           )}
+          
+
+          
+
+          
         </View>
         <Text
           style={{

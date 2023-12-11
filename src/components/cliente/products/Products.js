@@ -44,7 +44,29 @@ export default function Products({ productos }) {
         </Text>
 
         <View style={styles.preciosContainer}>
-          <Text
+          {producto.priceDiscount > 0 && (
+          <>
+            <Text
+            style={{
+              ...styles.priceText,
+              color: colors.primary,
+              fontSize: textSizes.Text,
+            }}
+          >
+            {"$ " + producto.priceDiscount + " MXN"}
+          </Text>
+            <Text
+              style={{
+                ...styles.precioAnterior,
+                color: colors.tertiary,
+                fontSize: textSizes.Text,
+              }}
+            >
+              {"$ " + producto.price + " MXN"}
+            </Text>
+            </>
+          ) || (
+            <Text
             style={{
               ...styles.priceText,
               color: colors.primary,
@@ -53,17 +75,6 @@ export default function Products({ productos }) {
           >
             {"$ " + producto.price + " MXN"}
           </Text>
-
-          {producto.priceDiscount > 0 && (
-            <Text
-              style={{
-                ...styles.precioAnterior,
-                color: colors.tertiary,
-                fontSize: textSizes.Text,
-              }}
-            >
-              {"$ " + producto.priceDiscount + " MXN"}
-            </Text>
           )}
         </View>
       </View>

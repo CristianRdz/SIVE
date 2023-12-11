@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, RefreshControl } from "react-native";
+import { StyleSheet, ScrollView, RefreshControl, Text } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import { useTheme } from "react-native-paper";
 import { View } from "react-native";
@@ -111,6 +111,21 @@ export default function CarritoScreen(props) {
                 marginHorizontal: "2%",
               }}
             >
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "space-between",
+                marginHorizontal: "2%",
+              }}
+            >
+              
+              <Text style={{ fontSize: textSizes.Subtitle , fontWeight: "bold" , color: colors.primary}}>
+                {"Descuento: $" + descuento + " MXN"}
+              </Text>
+              <Text style={{ fontSize: textSizes.Subtitle , fontWeight: "bold" , color: colors.primary}}>
+                {"Total: $" + total + " MXN"}
+              </Text>
+
              
 
               <Button
@@ -142,6 +157,7 @@ export default function CarritoScreen(props) {
                 buttonStyle={{ backgroundColor: colors.primary }}
                 containerStyle={styles.btnContainer}
               />
+            </View>
             </View>
           )
         : null}
