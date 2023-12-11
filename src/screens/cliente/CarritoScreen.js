@@ -33,10 +33,31 @@ export default function CarritoScreen(props) {
     try {
       setLoading(true);
       const userCart = await getCartByUser();
-      const data = await getProductsByUserCart();
+      const elements = await getProductsByUserCart();
+      let total = 0;
+      let descuento = 0;
+      if (elements) {
+        elements.forEach((element) => {
+          total +=
+            element.product.priceDiscount > 0
+              ? element.product.priceDiscount * element.quantity
+              : element.product.price * element.quantity;
+          descuento +=
+            element.product.priceDiscount > 0
+              ? element.product.price * element.quantity -
+                element.product.priceDiscount * element.quantity
+              : 0;
+        });
+        descuento = total > 400000 ? descuento + total * 0.1 : descuento;
+        total = total > 400000 ? total * 0.9 : total;
+        total = total.toFixed(2);
+        descuento = descuento.toFixed(2);
+        setTotal(total);
+        setDescuento(descuento);
+      }
       setUserCart(userCart);
-      setElements(data);
-      calcularTotal();
+      setElements(elements);
+      await calcularTotal();
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -61,23 +82,7 @@ export default function CarritoScreen(props) {
     setRefreshing(false);
   };
 
-  const calcularTotal = () => {
-    let total = 0;
-    let descuento = 0;
-    elements.forEach((element) => {
-      total +=
-        element.product.priceDiscount > 0
-          ? element.product.priceDiscount
-          : element.product.price * element.quantity;
-      descuento +=
-        element.product.priceDiscount > 0
-          ? element.product.price * element.quantity -
-            element.product.priceDiscount * element.quantity
-          : 0;
-    });
-    setTotal(total);
-    setDescuento(descuento);
-  };
+  const calcularTotal = async () => {};
 
   return (
     <View
@@ -111,57 +116,66 @@ export default function CarritoScreen(props) {
                 marginHorizontal: "2%",
               }}
             >
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "space-between",
-                marginHorizontal: "2%",
-              }}
-            >
-              
-              <Text style={{ fontSize: textSizes.Subtitle , fontWeight: "bold" , color: colors.primary}}>
-                {"Descuento: $" + descuento + " MXN"}
-              </Text>
-              <Text style={{ fontSize: textSizes.Subtitle , fontWeight: "bold" , color: colors.primary}}>
-                {"Total: $" + total + " MXN"}
-              </Text>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  marginHorizontal: "2%",
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: textSizes.Subtitle,
+                    fontWeight: "bold",
+                    color: colors.primary,
+                  }}
+                >
+                  {"Descuento: $" + descuento + " MXN"}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: textSizes.Subtitle,
+                    fontWeight: "bold",
+                    color: colors.primary,
+                  }}
+                >
+                  {"Total: $" + total + " MXN"}
+                </Text>
 
-             
-
-              <Button
-                title="Confirmar compra"
-                onPress={async () => {
-                  setLoading(true);
-                  await cartToSale(userCart.uid_cart);
-                  await getElementsFetch();
-                  setLoading(false);
-                  Toast.show({
-                    text1: "Pedido realizado",
-                    text2:
-                      "verifica el estado de tu pedido en la sección de pedidos",
-                    type: "success",
-                    position: "bottom",
-                  });
-                }}
-                titleStyle={{
-                  fontSize: textSizes.Subtitle,
-                  fontWeight: "bold",
-                  color: colors.surface,
-                }}
-                icon={{
-                  type: "material-community",
-                  name: "cart-arrow-right",
-                  color: colors.surface,
-                  iconStyle: { marginRight: 10 },
-                }}
-                buttonStyle={{ backgroundColor: colors.primary }}
-                containerStyle={styles.btnContainer}
-              />
-            </View>
+                <Button
+                  title="Confirmar compra"
+                  onPress={async () => {
+                    setLoading(true);
+                    await cartToSale(userCart.uid_cart);
+                    await getElementsFetch();
+                    setLoading(false);
+                    Toast.show({
+                      text1: "Pedido realizado",
+                      text2:
+                        "verifica el estado de tu pedido en la sección de pedidos",
+                      type: "success",
+                      position: "bottom",
+                    });
+                  }}
+                  titleStyle={{
+                    fontSize: textSizes.Subtitle,
+                    fontWeight: "bold",
+                    color: colors.surface,
+                  }}
+                  icon={{
+                    type: "material-community",
+                    name: "cart-arrow-right",
+                    color: colors.surface,
+                    iconStyle: { marginRight: 10 },
+                  }}
+                  buttonStyle={{ backgroundColor: colors.primary }}
+                  containerStyle={styles.btnContainer}
+                />
+              </View>
             </View>
           )
         : null}
-      
+
       <Loading visible={loading} text="Cargando..." />
     </View>
   );
