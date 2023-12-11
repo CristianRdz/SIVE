@@ -8,7 +8,7 @@ import { getTextSize } from "../../../utils/textSizes";
 import { AuthContext } from "../../../services/auth/context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { removeProductFromCart } from "../../../services/cart/cartService";
-
+import Toast from "react-native-toast-message";
 export default function Cart ({ elementCarts , fetchDataOut}) {
   const { colors } = useTheme();
   const { textSize } = useContext(AuthContext);
@@ -95,6 +95,12 @@ export default function Cart ({ elementCarts , fetchDataOut}) {
             try {
               await removeProductFromCart(elementCart.uid);
               fetchDataOut();
+              Toast.show({
+                text1: "Producto eliminado",
+                text2: "El producto se ha eliminado del carrito",
+                type: "success",
+                position: "bottom",
+              });
             } catch (error) {
               console.error(error);
             }
@@ -107,7 +113,7 @@ export default function Cart ({ elementCarts , fetchDataOut}) {
     </TouchableOpacity>
   );
 
-  const isEmpty = elementCarts.length === 0;
+  const isEmpty = elementCarts ? elementCarts.length === 0 : true;
 
   if (isEmpty) {
     return (

@@ -43,7 +43,7 @@ export const getSale = async (id) => {
 
 export const cartToSale = async (id) => {
   try {
-    let data = await fetchClient(`/api/sale/cart/${id}`, "GET", null);
+    let data = await fetchClient(`/api/sale/cart/${id}`, "POST", null);
     return data;
   } catch (error) {
     console.error(error);

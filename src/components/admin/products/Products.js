@@ -87,7 +87,7 @@ export default function Products({ productos, fetchDataOut }) {
     </TouchableOpacity>
   );
 
-  const isEmpty = productos.length === 0;
+  const isEmpty = productos ? productos.length === 0 : true;
 
   if (isEmpty) {
     return (

@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   overlay: {
     height: 100,
     width: 200,
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 10,
   },
   view: {
