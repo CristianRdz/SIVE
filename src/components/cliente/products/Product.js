@@ -15,6 +15,7 @@ import { loadImage } from "../../../utils/constants";
 import { AuthContext } from "../../../services/auth/context/AuthContext";
 import { getTextSize } from "../../../utils/textSizes";
 import Goback from "../../common/GoBack";
+import { addProductToCart, getCartByUser, saveCart } from "../../../services/cart/cartService";
 export default function Product(props) {
   const { colors } = useTheme();
   const { textSize } = useContext(AuthContext);
@@ -41,26 +42,25 @@ export default function Product(props) {
     }),
     onSubmit: async (values) => {
       try {
-        // setLoading(true);
-        // const elemento_carrito = {
-        //   quantity: parseInt(values.cantidad),
-        //   product: producto,
-        // };
-        // const existeCarrito = await obtenerCarrito();
-        // if (existeCarrito === null) {
-        //   await guardarCarrito([]);
-        //   await agregarProductoAlCarrito(elemento_carrito);
-        // } else {
-        //   await agregarProductoAlCarrito(elemento_carrito);
-        // }
-        // try {
-        //   navigation.navigate("carritoCliente", {
-        //     screen: "carritoClienteS",
-        //     params: { actualizarCarrito: elemento_carrito },
-        //   });
-        // } catch (error) {
-        //   navigation.goBack();
-        // }
+        setLoading(true);
+        const elemento_carrito = {
+          quantity: parseInt(values.cantidad),
+          product: producto,
+        };
+        const existeCarrito = await getCartByUser();
+        if (existeCarrito) {
+          await addProductToCart(elemento_carrito);
+        } else {
+          await saveCart();
+          await addProductToCart(elemento_carrito);
+        }
+        try {
+          navigation.navigate("carritoCliente", {
+            producto: producto,
+          });
+        } catch (error) {
+          navigation.goBack();
+        }
         Toast.show({
           type: "success",
           position: "top",
@@ -190,7 +190,10 @@ export default function Product(props) {
           }}
         >
           {"Total: $" +
-            (producto.priceDiscount > 0 ? producto.priceDiscount : producto.price) * formik.values.cantidad +
+            (producto.priceDiscount > 0
+              ? producto.priceDiscount
+              : producto.price) *
+              formik.values.cantidad +
             " MXN"}
         </Text>
         <View
@@ -239,6 +242,7 @@ export default function Product(props) {
             onPress={() => {
               formik.handleSubmit();
             }}
+            loading={formik.isSubmitting} 
           />
         </View>
         <Text style={{ fontSize: textSizes.Text, color: colors.error }}>

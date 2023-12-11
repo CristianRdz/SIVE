@@ -43,7 +43,6 @@ export const removeUser= async (id) => {
 export const getUser= async (id) => {
   try {
     let data = null;
-    const userInfo = await getUserData();
     data = await fetchClient(`/api/user/${id}`, "GET", null);
     return data;
   } catch (error) {

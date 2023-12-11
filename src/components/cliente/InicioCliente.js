@@ -57,6 +57,7 @@ export default function InicioCliente() {
                 navigation.navigate("productosCliente", {
                   category: category,
                 })
+
                 
               }
               icon={{
