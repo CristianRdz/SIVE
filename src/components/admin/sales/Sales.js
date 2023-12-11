@@ -23,7 +23,7 @@ export default function Sales({ sales, fetchDataOut }) {
         { backgroundColor: colors.surface, borderColor: colors.primary },
       ]}
       onPress={() => {
-        setRenderComponent(<Sale close={openClose} sale_uid={sale.uid_sale}/>);
+        setRenderComponent(<Sale close={openClose} sale={sale}/>);
         openClose();
       }}
     >
