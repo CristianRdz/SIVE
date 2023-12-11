@@ -16,7 +16,7 @@ import Modal from "./Modal";
 
 export default function ScrollCategories(props) {
   const { colors } = useTheme();
-  const { textSize } = useContext(AuthContext);
+  const { textSize ,userInfo} = useContext(AuthContext);
   const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
   const { setCategoriesOut } = props;
   const [categories, setCategories] = useState([]);
@@ -45,9 +45,9 @@ export default function ScrollCategories(props) {
       style={[
         styles.container,
         {
-          backgroundColor: selectedCategories.includes(category)
-            ? colors.primary
-            : colors.secondary,
+          backgroundColor: userInfo.role.name === "admin" ? colors.primary : selectedCategories.includes(category)
+          ? colors.primary
+          : colors.secondary,
         },
       ]}
       onPress={() => {
@@ -89,7 +89,8 @@ export default function ScrollCategories(props) {
             openClose();
           }}
         >
-          <Text
+          {userInfo.role.name === "admin" && (
+            <Text
             style={[
               styles.text,
               { color: colors.surface, fontSize: textSizes.Small },
@@ -98,6 +99,7 @@ export default function ScrollCategories(props) {
           >
             +
           </Text>
+          )}
         </TouchableOpacity>
       </ScrollView>
       <Modal isVisible={showModal} close={openClose}>

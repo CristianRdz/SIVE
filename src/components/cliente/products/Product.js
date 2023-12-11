@@ -22,6 +22,8 @@ import {
 } from "../../../services/cart/cartService";
 export default function Product(props) {
   const { colors } = useTheme();
+  
+
   const { textSize } = useContext(AuthContext);
   const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
   const [loading, setLoading] = useState(false);

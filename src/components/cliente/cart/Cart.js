@@ -9,7 +9,7 @@ import { AuthContext } from "../../../services/auth/context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { removeProductFromCart } from "../../../services/cart/cartService";
 
-export default function Cart ({ elementCarts }) {
+export default function Cart ({ elementCarts , fetchDataOut}) {
   const { colors } = useTheme();
   const { textSize } = useContext(AuthContext);
   const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
@@ -94,7 +94,7 @@ export default function Cart ({ elementCarts }) {
           onPress={ async () => {
             try {
               await removeProductFromCart(elementCart.uid);
-              onRefresh();
+              fetchDataOut();
             } catch (error) {
               console.error(error);
             }

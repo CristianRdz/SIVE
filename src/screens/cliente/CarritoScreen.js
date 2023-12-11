@@ -1,5 +1,5 @@
 import { StyleSheet, ScrollView, RefreshControl } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useTheme } from "react-native-paper";
 import { View } from "react-native";
 import Searchbar from "../../components/common/Searchbar";
@@ -7,8 +7,10 @@ import Goback from "../../components/common/GoBack";
 import Title from "../../components/common/Title";
 import Cart from "../../components/cliente/cart/Cart";
 import { getProductsByUserCart } from "../../services/cart/cartService";
+import { get } from "lodash";
 
-export default function CarritoScreen() { 
+export default function CarritoScreen(props) {
+  const { route } = props;
   const [inputValue, setInputValue] = useState("");
   const [elements, setElements] = useState([]);
   const { colors } = useTheme();
@@ -18,16 +20,25 @@ export default function CarritoScreen() {
     try {
       const data = await getProductsByUserCart();
       setElements(data);
-      console.log(data)
     } catch (error) {
       console.error(error);
     }
   };
+
+  
   
 
   useEffect(() => {
     getElementsFetch();
   }, []);
+
+  // hacemos que se actualice cada que se cambia a la pantalla
+  useEffect(() => {
+    const unsubscribe = props.navigation.addListener("focus", () => {
+      getElementsFetch();
+    });
+    return unsubscribe;
+  }, [props.navigation]);
 
   const onRefresh = () => {
     setRefreshing(true);
