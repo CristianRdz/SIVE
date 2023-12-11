@@ -1,4 +1,4 @@
-import { fetchClient } from "../../utils/fetchClient";
+import { fetchClient, getUserData } from "../../utils/fetchClient";
 
 export async function getSales() {
   try {
@@ -50,11 +50,10 @@ export const cartToSale = async (id) => {
   }
 };
 
-export const confirmSale = async (id) => {
+export const confirmSale = async (sale) => {
   try {
-    const sale = await getSale(id);
     sale.purchase_status = "Confirmada";
-    let data = await fetchClient(`/api/sale/${id}`, "PUT", sale);
+    let data = await fetchClient(`/api/sale/${sale.uid_sale}`, "PUT", sale);
     return data;
   } catch (error) {
     console.error(error);

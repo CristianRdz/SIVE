@@ -154,7 +154,6 @@ export default function CarritoScreen(props) {
                       text2:
                         "verifica el estado de tu pedido en la sección de pedidos",
                       type: "success",
-                      position: "bottom",
                     });
                   }}
                   titleStyle={{
