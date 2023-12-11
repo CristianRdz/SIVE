@@ -185,7 +185,7 @@ export default function Sale(props) {
         color:
           sale.purchase_status === "Pendiente"
             ? colors.error
-            : colors.success,
+            : colors.primary,
       }}
     >
       {sale.purchase_status}

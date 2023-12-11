@@ -44,7 +44,7 @@ export default function Sales({ sales, fetchDataOut }) {
             color:
               sale.purchase_status === "Pendiente"
                 ? colors.error
-                : colors.success,
+                : colors.primary,
           }}
         >
           {sale.purchase_status}
