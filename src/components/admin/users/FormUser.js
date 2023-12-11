@@ -250,6 +250,7 @@ export default function FormUser(props) {
         onChangeText={(text) => formik.setFieldValue("phoneNumber", text)}
         value={formik.values.phoneNumber}
         error={formik.errors.phoneNumber ? true : false}
+        keyboardType="numeric"
       />
       <Text style={{ fontSize: textSizes.Text, color: colors.error }}>
         {formik.errors.phoneNumber}

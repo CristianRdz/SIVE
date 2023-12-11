@@ -15,7 +15,11 @@ import { loadImage } from "../../../utils/constants";
 import { AuthContext } from "../../../services/auth/context/AuthContext";
 import { getTextSize } from "../../../utils/textSizes";
 import Goback from "../../common/GoBack";
-import { addProductToCart, getCartByUser, saveCart } from "../../../services/cart/cartService";
+import {
+  addProductToCart,
+  getCartByUser,
+  saveCart,
+} from "../../../services/cart/cartService";
 export default function Product(props) {
   const { colors } = useTheme();
   const { textSize } = useContext(AuthContext);
@@ -221,6 +225,7 @@ export default function Product(props) {
                 )}
               />
             }
+            keyboardType="numeric"
             onChangeText={(text) => formik.setFieldValue("cantidad", text)}
             error={formik.errors.cantidad ? true : false}
           />
@@ -242,7 +247,7 @@ export default function Product(props) {
             onPress={() => {
               formik.handleSubmit();
             }}
-            loading={formik.isSubmitting} 
+            loading={formik.isSubmitting}
           />
         </View>
         <Text style={{ fontSize: textSizes.Text, color: colors.error }}>

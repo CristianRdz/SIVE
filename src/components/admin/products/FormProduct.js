@@ -212,7 +212,7 @@ export default function FormProduct(props) {
         onChangeText={(text) => formik.setFieldValue("price", text)}
         error={formik.errors.price ? true : false}
         value={formik.values.price}
-        type="number"
+        keyboardType="numeric"
       />
       <Text
         style={
@@ -231,7 +231,7 @@ export default function FormProduct(props) {
         onChangeText={(text) => formik.setFieldValue("priceDiscount", text)}
         error={formik.errors.priceDiscount ? true : false}
         value={formik.values.priceDiscount}
-        type="number"
+        keyboardType="numeric"
       />
       <Text
         style={
@@ -250,7 +250,7 @@ export default function FormProduct(props) {
         onChangeText={(text) => formik.setFieldValue("stock", text)}
         error={formik.errors.stock ? true : false}
         value={formik.values.stock}
-        type="number"
+        keyboardType="numeric"
       />
       <Text
         style={
