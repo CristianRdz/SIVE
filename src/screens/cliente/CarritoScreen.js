@@ -145,7 +145,7 @@ export default function CarritoScreen(props) {
             </View>
           )
         : null}
-      \
+      
       <Loading visible={loading} text="Cargando..." />
     </View>
   );
