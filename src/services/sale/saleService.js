@@ -53,7 +53,7 @@ export const cartToSale = async (id) => {
 export const confirmSale = async (sale) => {
   try {
     sale.purchase_status = "Confirmada";
-    let data = await fetchClient(`/api/sale/${sale.uid_sale}`, "PUT", sale);
+    let data = await fetchClient(`/api/sale/`, "PUT", sale);
     return data;
   } catch (error) {
     console.error(error);
