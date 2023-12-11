@@ -7,6 +7,7 @@ import { loadFirstImage } from "../../../utils/constants";
 import { getTextSize } from "../../../utils/textSizes";
 import { AuthContext } from "../../../services/auth/context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import { removeProductFromCart } from "../../../services/cart/cartService";
 
 export default function Cart ({ elementCarts }) {
   const { colors } = useTheme();
@@ -20,11 +21,6 @@ export default function Cart ({ elementCarts }) {
         styles.productContainer,
         { backgroundColor: colors.surface, borderColor: colors.primary },
       ]}
-      onPress={() => {
-        navigation.navigate("elementCart", {
-          elementCart: elementCart,
-        });
-      }}
     >
       <View style={styles.imageContainer}>
         <Image
@@ -65,17 +61,49 @@ export default function Cart ({ elementCarts }) {
               {"$ " + elementCart.product.priceDiscount + " MXN"}
             </Text>
           )}
+
+         
         </View>
+        <Text
+            style={{
+              ...styles.stockText,
+              color: colors.primary,
+              fontSize: textSizes.Text,
+            }}
+          >
+            {"Cantidad: " + elementCart.quantity}
+          </Text>
+
+          <Text
+            style={{
+              ...styles.stockText,
+              color: colors.primary,
+              fontSize: textSizes.Text,
+            }}
+          >
+            {"Total: $" + elementCart.product.price * elementCart.quantity + " MXN"}
+          </Text>
       </View>
+
       <View style={styles.iconContainer}>
         <Icon
           type="material-community"
-          name="chevron-right"
+          name="delete"
           size={30}
           color={colors.primary}
-          style={{ marginRight: "5%" }}
+          onPress={ async () => {
+            try {
+              await removeProductFromCart(elementCart.uid);
+              onRefresh();
+            } catch (error) {
+              console.error(error);
+            }
+          }
+          }
         />
       </View>
+      
+
     </TouchableOpacity>
   );
 
@@ -118,7 +146,7 @@ export default function Cart ({ elementCarts }) {
 const styles = StyleSheet.create({
   productContainer: {
     flexDirection: "row",
-    height: 80,
+    height: 150,
     width: "100%",
     borderWidth: 0.5,
     borderRadius: 10,

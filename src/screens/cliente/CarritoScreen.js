@@ -57,7 +57,7 @@ export default function CarritoScreen() {
         showsVerticalScrollIndicator={false}
         style={{ backgroundColor: colors.surface }}
       >
-        <Cart elementCarts={elements} />
+        <Cart elementCarts={elements} fetchDataOut={getElementsFetch} />
       </ScrollView>
     </View>
   );
