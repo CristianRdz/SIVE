@@ -16,7 +16,7 @@ export default function Cart({ elementCarts, fetchDataOut }) {
   const navigation = useNavigation();
   const renderProduct = (elementCart) => (
     <TouchableOpacity
-      key={elementCart.product.uid}
+      key={elementCart.uid}
       style={[
         styles.productContainer,
         { backgroundColor: colors.surface, borderColor: colors.primary },
