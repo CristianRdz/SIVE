@@ -14,8 +14,8 @@ export default function ProductosScreen() {
   // const [productos, setProductos] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [productos, setProductos] = useState([]);
+  const [productosf, setProductosf] = useState([]);
   const { colors } = useTheme();
-
 
   const [refreshing, setRefreshing] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -24,6 +24,7 @@ export default function ProductosScreen() {
     try {
       const data = await getProducts();
       setProductos(data);
+      setProductosf(data);
     } catch (error) {
       console.error(error);
     }
@@ -51,10 +52,9 @@ export default function ProductosScreen() {
             producto.name.toLowerCase().includes(inputValue.toLowerCase()))
       );
     };
-
     if (selectedCategories.length > 0 || inputValue !== "") {
       const filteredProducts = filterProducts();
-      setProductos(filteredProducts);
+      setProductosf(filteredProducts);
     } else {
       getProductsFetch();
     }
@@ -85,7 +85,7 @@ export default function ProductosScreen() {
         showsVerticalScrollIndicator={false}
         style={{ backgroundColor: colors.surface }}
       >
-        <Products productos={productos} fetchDataOut={getProductsFetch} />
+        <Products productos={productosf} fetchDataOut={getProductsFetch} />
       </ScrollView>
     </View>
   );
