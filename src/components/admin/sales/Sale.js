@@ -13,13 +13,13 @@ export default function Sale(props) {
   const { colors } = useTheme();
   const { textSize } = useContext(AuthContext);
   const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
-  const { close, sale_uid } = props;
+  const { close, sale} = props;
   const [saleProducts, setSaleProducts] = useState([]);
   const [descuento, setDescuento] = useState(0);
 
   const getSaleFetch = async () => {
     try {
-      const elements = await getProductsSale(sale_uid);
+      const elements = await getProductsSale(sale.sale_uid);
       let total = 0;
       let descuento = 0;
       if (elements) {
@@ -176,6 +176,18 @@ export default function Sale(props) {
           marginHorizontal: "2%",
         }}
       >
+       <Text
+          style={{
+            fontSize: textSizes.Small,
+            fontWeight: "bold",
+            color:
+              sale.purchase_status === "Pendiente"
+                ? colors.error
+                : colors.success,
+          }}
+        >
+          {sale.purchase_status}
+        </Text>
         <Text
           style={{
             fontSize: textSizes.Subtitle,

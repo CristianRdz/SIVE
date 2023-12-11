@@ -16,13 +16,13 @@ import Sales from "../../components/admin/sales/Sales";
 
 export default function VentasScreen() {
   const { colors } = useTheme();
-  const { textSize } = useContext(AuthContext);
+  const { textSize , userInfo } = useContext(AuthContext);
   const [ventas, setVentas] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   const getSalesFetch = async () => {
     try {
-      const data = await getSales();
+      const data = userInfo.role === "admin" ? await getSales() : await getSalesByUser();
       setVentas(data);
     } catch (error) {
       console.error(error);
@@ -112,9 +112,9 @@ export default function VentasScreen() {
         backgroundColor: colors.surface,
       }}
     >
-      <Goback title={"Ventas"} />
+      <Goback title={userInfo.role === "admin" ? "Ventas" : "Mis pedidos"} />
       <FiltersSales />
-      <Title title={"Todas las ventas"} />
+      <Title title={userInfo.role === "admin" ? "Todas las ventas" : "Mis pedidos"} />
       <ScrollView
         refreshControl={
           <RefreshControl
