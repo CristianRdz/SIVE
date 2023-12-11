@@ -45,6 +45,8 @@ export default function VentasScreen() {
     getSalesFetch();
   }, []);
 
+  
+
   const FiltersSales = () => (
     <View
       style={{
