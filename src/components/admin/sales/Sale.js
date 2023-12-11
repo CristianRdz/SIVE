@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from "react-native";
 import { Button, Icon } from "react-native-elements";
 import { AuthContext } from "../../../services/auth/context/AuthContext";
 import { useTheme } from "react-native-paper";
-import { getSale } from "../../../services/sale/saleService";
+import { getProductsSale } from "../../../services/sale/saleService";
 
 export default function Sale(props) {
   const { colors } = useTheme();
@@ -12,7 +12,15 @@ export default function Sale(props) {
   const [sale, setSale] = useState(null);
 
   const getSaleFetch = async () => {
+    try {
+      const data = await getProductsSale(sale_uid);
+      setSale(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  console.log(sale);
 
   useEffect(() => {
     getSaleFetch();
@@ -20,7 +28,7 @@ export default function Sale(props) {
 
   return (
     <View>
-      <Text></Text>
+      <Text>{sale}</Text>
       <Button
         text
         icon={

@@ -83,3 +83,12 @@ export const getSalesByDate = async (date) => {
     console.error(error);
   }
 };
+
+export const getProductsSale = async (uid_sale) => {
+  try {
+    let data = await fetchClient(`/api/saleProducts/uid_cart/${uid_sale}`, "GET", null);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
