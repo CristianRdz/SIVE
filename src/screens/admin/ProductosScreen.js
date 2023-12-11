@@ -58,7 +58,7 @@ export default function ProductosScreen() {
     >
       <Goback title={"Productos"} />
       <Searchbar setInputValue={setInputValue} />
-
+      <ScrollCategories setCategoriesOut={() => { }} />
       <Title title={"Lista de productos"} />
       <ScrollView
         //make reload when scroll
