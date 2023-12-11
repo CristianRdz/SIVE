@@ -18,6 +18,7 @@ import { View } from "react-native";
 import ProductoStack from "./cliente/ProductoStack";
 import { getTextSize } from "../utils/textSizes";
 import CarritoStack from "./cliente/CarritoStack";
+import PedidosStack from "./cliente/PedidosStack";
 
 const CustomDrawerContent = (props) => {
   const { colors } = useTheme();
@@ -187,6 +188,17 @@ export default function AppNavigation() {
             component={CarritoStack}
           />
           <Drawer.Screen
+            name="pedidosCliente"
+            options={{
+              title: "Pedidos",
+              drawerLabelStyle: {
+                fontSize: textSizes.Text,
+                fontWeight: "bold",
+              },
+            }}
+            component={PedidosStack}
+          />
+          <Drawer.Screen
             name="ajustes"
             options={{
               title: "Temas",
@@ -260,7 +272,7 @@ function iconos(route, color, size) {
   if (route.name === "cerrarSesion") {
     name = "logout";
   }
-  if (route.name === "pedidosAdmin") {
+  if (route.name === "pedidosCliente") {
     name = "clipboard-list";
   }
   if (route.name === "cargando") {

@@ -2,24 +2,24 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect } from "react";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { useTheme } from "react-native-paper";
-import { Icon, Image } from "react-native-elements";
+import { Icon, Image, Button } from "react-native-elements";
 import { AuthContext } from "../../../services/auth/context/AuthContext";
-import { getProductsSale } from "../../../services/sale/saleService";
+import { confirmSale, getProductsSale } from "../../../services/sale/saleService";
 import { getTextSize } from "../../../utils/textSizes";
 import { useState } from "react";
 import { loadFirstImage } from "../../../utils/constants";
-
+import Toast from "react-native-toast-message";
 export default function Sale(props) {
   const { colors } = useTheme();
   const { textSize } = useContext(AuthContext);
   const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
-  const { close, sale} = props;
+  const { close, sale_uid , sale , fetchDataOut } = props;
   const [saleProducts, setSaleProducts] = useState([]);
   const [descuento, setDescuento] = useState(0);
 
   const getSaleFetch = async () => {
     try {
-      const elements = await getProductsSale(sale.sale_uid);
+      const elements = await getProductsSale(sale_uid);
       let total = 0;
       let descuento = 0;
       if (elements) {
@@ -120,7 +120,6 @@ export default function Sale(props) {
             fontSize: textSizes.Text,
           }}
         >
-          {"Total: "}
           {elementSale.product.priceDiscount > 0
             ? elementSale.product.priceDiscount * elementSale.quantity
             : elementSale.product.price * elementSale.quantity}
@@ -156,60 +155,83 @@ export default function Sale(props) {
             opacity: 0.5,
           }}
         >
-          No hay elementos en el carrito
+          No hay elementos la venta
         </Text>
       </View>
     );
   }
 
   return (
+    <>
     <ScrollView
       style={{
         backgroundColor: colors.surface,
       }}
     >
       {saleProducts.map((elementSale) => renderProduct(elementSale))}
-      <View
-        style={{
-          flexDirection: "column",
-          justifyContent: "space-between",
-          marginHorizontal: "2%",
-        }}
-      >
-       <Text
-          style={{
-            fontSize: textSizes.Small,
-            fontWeight: "bold",
-            color:
-              sale.purchase_status === "Pendiente"
-                ? colors.error
-                : colors.success,
-          }}
-        >
-          {sale.purchase_status}
-        </Text>
-        <Text
-          style={{
-            fontSize: textSizes.Subtitle,
-            fontWeight: "bold",
-            color: colors.primary,
-          }}
-        >
-          {"Descuento: $" + descuento + " MXN"}
-        </Text>
-        <Text
-          style={{
-            fontSize: textSizes.Subtitle,
-            fontWeight: "bold",
-            color: colors.primary,
-          }}
-        >
-          {"Total: $" +
-            (saleProducts[0] ? saleProducts[0].sale.total : 0) +
-            " MXN"}
-        </Text>
-      </View>
+      
     </ScrollView>
+    <View
+    style={{
+      flexDirection: "column",
+      justifyContent: "space-between",
+      marginHorizontal: "2%",
+    }}
+  >
+     <Text
+      style={{
+        fontSize: textSizes.Small,
+        fontWeight: "bold",
+        color:
+          sale.purchase_status === "Pendiente"
+            ? colors.error
+            : colors.success,
+      }}
+    >
+      {sale.purchase_status}
+    </Text>
+    <Text
+      style={{
+        fontSize: textSizes.Subtitle,
+        fontWeight: "bold",
+        color: colors.primary,
+      }}
+    >
+      {"Descuento: $" + descuento + " MXN"}
+    </Text>
+    <Text
+      style={{
+        fontSize: textSizes.Subtitle,
+        fontWeight: "bold",
+        color: colors.primary,
+      }}
+    >
+      {"Total: $" +
+        (saleProducts[0] ? saleProducts[0].sale.total : Toast0) +
+        " MXN"}
+    </Text>
+    {sale.purchase_status === "Pendiente" && (
+      <Button 
+      title="Confirmar compra"
+      containerStyle={styles.btnContainer}
+      buttonStyle={{ backgroundColor: colors.primary }}
+      titleStyle={{ fontSize: textSizes.Subtitle , fontWeight: "bold" , color: colors.surface }}
+      onPress={async () => {
+        await confirmSale(sale);
+        fetchDataOut();
+        close();
+        Toast.show({
+          text1: "Compra confirmada",
+          text2: "La compra se ha confirmado exitosamente",
+          type: "success",
+        });
+      }
+      }
+      />
+
+    )}
+  </View>
+  </>
   );
 }
 

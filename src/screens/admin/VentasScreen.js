@@ -11,7 +11,7 @@ import { useTheme } from "react-native-paper";
 import Goback from "../../components/common/GoBack";
 import Title from "../../components/common/Title";
 import { AuthContext } from "../../services/auth/context/AuthContext";
-import { getSales } from "../../services/sale/saleService";
+import { getSales, getSalesByUser } from "../../services/sale/saleService";
 import Sales from "../../components/admin/sales/Sales";
 
 export default function VentasScreen() {
@@ -22,8 +22,13 @@ export default function VentasScreen() {
 
   const getSalesFetch = async () => {
     try {
-      const data = userInfo.role === "admin" ? await getSales() : await getSalesByUser();
-      setVentas(data);
+      if (userInfo.role === "admin") {
+        const data = await getSales();
+        setVentas(data);
+      }else{
+        const data = await getSalesByUser();
+        setVentas(data);
+      }
     } catch (error) {
       console.error(error);
     }

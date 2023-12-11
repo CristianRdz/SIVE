@@ -145,15 +145,6 @@ function getOptionsMenu(selectComponent) {
         iconNameRight: "chevron-right",
         onPress: () => selectComponent("contra"),
       },
-      {
-        title: "Pedidos",
-        iconType: "material-community",
-        iconNameLeft: "cart",
-        iconColorLeft: colors.primary,
-        iconColorRight: colors.primary,
-        iconNameRight: "chevron-right",
-        onPress: () => navigation.navigate("pedidosClienteS"),
-      }
     ];
   }
 }
