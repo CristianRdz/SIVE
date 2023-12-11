@@ -215,7 +215,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: "2%",
   },
-
   btnContainer: {
     marginTop: 15,
     marginBottom: 15,
