@@ -11,6 +11,8 @@ import { useTheme } from "react-native-paper";
 import { getCategories } from "../../services/categories/catgoriesService";
 import { AuthContext } from "../../services/auth/context/AuthContext";
 import { getTextSize } from "../../utils/textSizes";
+import FormCategory from "../admin/categories/FormCategory";
+import Modal from "./Modal";
 
 export default function ScrollCategories(props) {
   const { colors } = useTheme();
@@ -19,6 +21,9 @@ export default function ScrollCategories(props) {
   const { setCategoriesOut } = props;
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const openClose = () => setShowModal((prevState) => !prevState);
+  const [showModal, setShowModal] = useState(false);
+  const [renderComponent, setRenderComponent] = useState(null);
 
   async function fetchCategories() {
     try {
@@ -33,37 +38,71 @@ export default function ScrollCategories(props) {
     fetchCategories();
   }, []);
 
+  const renderCategory = (category) => (
+    <TouchableOpacity
+      key={category.uid_category}
+      activeOpacity={0.6}
+      style={[
+        styles.container,
+        {
+          backgroundColor: selectedCategories.includes(category)
+            ? colors.primary
+            : colors.secondary,
+        },
+      ]}
+      onPress={() => {
+        if (selectedCategories.includes(category)) {
+          const filteredCategories = selectedCategories.filter(
+            (selectedCategory) => selectedCategory !== category
+          );
+          setSelectedCategories(filteredCategories);
+          setCategoriesOut(filteredCategories);
+        } else {
+          const updatedCategories = [...selectedCategories, category];
+          setSelectedCategories(updatedCategories);
+          setCategoriesOut(updatedCategories);
+        }
+      }}
+    >
+      <Text
+        style={[
+          styles.text,
+          { color: colors.surface, fontSize: textSizes.Small },
+        ]}
+        numberOfLines={1}
+      >
+        {category.name}
+      </Text>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.viewContainer}>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        {categories.map((category) => (
-          <TouchableOpacity
-            key={category.uid_category}
-            activeOpacity={0.6}
-            style={[styles.container, { backgroundColor: selectedCategories.includes(category) ? colors.primary : colors.secondary }]}
-            onPress={() => {
-              if (selectedCategories.includes(category)) {
-                const filteredCategories = selectedCategories.filter(
-                  (selectedCategory) => selectedCategory !== category
-                );
-                setSelectedCategories(filteredCategories);
-                setCategoriesOut(filteredCategories);
-              } else {
-                const updatedCategories = [...selectedCategories, category];
-                setSelectedCategories(updatedCategories);
-                setCategoriesOut(updatedCategories);
-              }
-            }}
+        {categories.map((category) => renderCategory(category))}
+        <TouchableOpacity
+          style={[styles.container, { backgroundColor: colors.primary }]}
+          onPress={() => {
+            setRenderComponent(
+              <FormCategory close={openClose} fetchDataOut={fetchCategories} />
+            );
+            openClose();
+          }}
+        >
+          <Text
+            style={[
+              styles.text,
+              { color: colors.surface, fontSize: textSizes.Small },
+            ]}
+            numberOfLines={1}
           >
-            <Text
-              style={[styles.text, { color: colors.surface , fontSize: textSizes.Small}]}
-              numberOfLines={1}
-            >
-              {category.name}
-            </Text>
-          </TouchableOpacity>
-        ))}
+            +
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
+      <Modal isVisible={showModal} close={openClose}>
+        {renderComponent}
+      </Modal>
     </View>
   );
 }

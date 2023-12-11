@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
+import { StyleSheet, Text, ScrollView, Image } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -113,7 +113,6 @@ export default function FormProduct(props) {
       // El array debe tener al menos una imagen
       images: Yup.array().required("Las imagenes son obligatorias").min(producto ? 0 : 1, "Las imagenes son obligatorias"),
     }),
-
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
@@ -298,9 +297,6 @@ export default function FormProduct(props) {
       >
         {formik.errors.description}
       </Text>
-
-      
-
       <Button
         text
         icon={
