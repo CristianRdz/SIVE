@@ -9,7 +9,7 @@ import { AuthContext } from "../../../services/auth/context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { removeProductFromCart } from "../../../services/cart/cartService";
 import Toast from "react-native-toast-message";
-export default function Cart ({ elementCarts , fetchDataOut}) {
+export default function Cart({ elementCarts, fetchDataOut }) {
   const { colors } = useTheme();
   const { textSize } = useContext(AuthContext);
   const textSizes = getTextSize(textSize.valor ? "medium" : textSize);
@@ -21,6 +21,12 @@ export default function Cart ({ elementCarts , fetchDataOut}) {
         styles.productContainer,
         { backgroundColor: colors.surface, borderColor: colors.primary },
       ]}
+      onPress={() => {
+        navigation.navigate("productosCliente", {
+          screen: "producto",
+          params: { producto: elementCart.product },
+        });
+      }}
     >
       <View style={styles.imageContainer}>
         <Image
@@ -61,28 +67,28 @@ export default function Cart ({ elementCarts , fetchDataOut}) {
               {"$ " + elementCart.product.priceDiscount + " MXN"}
             </Text>
           )}
-
-         
         </View>
         <Text
-            style={{
-              ...styles.stockText,
-              color: colors.primary,
-              fontSize: textSizes.Text,
-            }}
-          >
-            {"Cantidad: " + elementCart.quantity}
-          </Text>
+          style={{
+            ...styles.stockText,
+            color: colors.primary,
+            fontSize: textSizes.Text,
+          }}
+        >
+          {"Cantidad: " + elementCart.quantity}
+        </Text>
 
-          <Text
-            style={{
-              ...styles.stockText,
-              color: colors.primary,
-              fontSize: textSizes.Text,
-            }}
-          >
-            {"Total: $" + elementCart.product.price * elementCart.quantity + " MXN"}
-          </Text>
+        <Text
+          style={{
+            ...styles.stockText,
+            color: colors.primary,
+            fontSize: textSizes.Text,
+          }}
+        >
+          {"Total: $" +
+            elementCart.product.price * elementCart.quantity +
+            " MXN"}
+        </Text>
       </View>
 
       <View style={styles.iconContainer}>
@@ -91,7 +97,7 @@ export default function Cart ({ elementCarts , fetchDataOut}) {
           name="delete"
           size={30}
           color={colors.primary}
-          onPress={ async () => {
+          onPress={async () => {
             try {
               await removeProductFromCart(elementCart.uid);
               fetchDataOut();
@@ -104,12 +110,9 @@ export default function Cart ({ elementCarts , fetchDataOut}) {
             } catch (error) {
               console.error(error);
             }
-          }
-          }
+          }}
         />
       </View>
-      
-
     </TouchableOpacity>
   );
 
@@ -140,13 +143,15 @@ export default function Cart ({ elementCarts , fetchDataOut}) {
             opacity: 0.5,
           }}
         >
-          No hay elementos en el carrito    
+          No hay elementos en el carrito
         </Text>
       </View>
     );
   }
 
-  return <View>{elementCarts.map((elementCart) => renderProduct(elementCart))}</View>;
+  return (
+    <View>{elementCarts.map((elementCart) => renderProduct(elementCart))}</View>
+  );
 }
 
 const styles = StyleSheet.create({

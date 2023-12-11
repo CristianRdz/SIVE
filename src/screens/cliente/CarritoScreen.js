@@ -1,10 +1,13 @@
 import { StyleSheet, ScrollView, RefreshControl } from "react-native";
-import React, { useState, useEffect,  useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useTheme } from "react-native-paper";
 import { View } from "react-native";
 import Goback from "../../components/common/GoBack";
 import Cart from "../../components/cliente/cart/Cart";
-import { getCartByUser, getProductsByUserCart } from "../../services/cart/cartService";
+import {
+  getCartByUser,
+  getProductsByUserCart,
+} from "../../services/cart/cartService";
 import { Button } from "react-native-elements";
 import { AuthContext } from "../../services/auth/context/AuthContext";
 import { getTextSize } from "../../utils/textSizes";
@@ -23,6 +26,8 @@ export default function CarritoScreen(props) {
   const [refreshing, setRefreshing] = useState(false);
   const [userCart, setUserCart] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [total, setTotal] = useState(0);
+  const [descuento, setDescuento] = useState(0);
 
   const getElementsFetch = async () => {
     try {
@@ -31,6 +36,7 @@ export default function CarritoScreen(props) {
       const data = await getProductsByUserCart();
       setUserCart(userCart);
       setElements(data);
+      calcularTotal();
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -42,7 +48,6 @@ export default function CarritoScreen(props) {
     getElementsFetch();
   }, []);
 
-  // hacemos que se actualice cada que se cambia a la pantalla
   useEffect(() => {
     const unsubscribe = props.navigation.addListener("focus", () => {
       getElementsFetch();
@@ -54,6 +59,24 @@ export default function CarritoScreen(props) {
     setRefreshing(true);
     getElementsFetch();
     setRefreshing(false);
+  };
+
+  const calcularTotal = () => {
+    let total = 0;
+    let descuento = 0;
+    elements.forEach((element) => {
+      total +=
+        element.product.priceDiscount > 0
+          ? element.product.priceDiscount
+          : element.product.price * element.quantity;
+      descuento +=
+        element.product.priceDiscount > 0
+          ? element.product.price * element.quantity -
+            element.product.priceDiscount * element.quantity
+          : 0;
+    });
+    setTotal(total);
+    setDescuento(descuento);
   };
 
   return (
@@ -79,37 +102,50 @@ export default function CarritoScreen(props) {
       >
         <Cart elementCarts={elements} fetchDataOut={getElementsFetch} />
       </ScrollView>
-      {elements ? elements.length > 0 && (
-        <Button
-        title="Confirmar compra"
-        onPress={async () => {
-          setLoading(true);
-          await cartToSale(userCart.uid_cart);
-          await getElementsFetch();
-          setLoading(false);
-          Toast.show({
-            text1: "Pedido realizado",
-            text2: "verifica el estado de tu pedido en la sección de pedidos",
-            type: "success",
-            position: "bottom",
-          });
-        }}
-        titleStyle={{
-          fontSize: textSizes.Subtitle, 
-          fontWeight: "bold",
-          color: colors.surface,
-        }}
-        icon={{
-          type: "material-community",
-          name: "cart-arrow-right",
-          color: colors.surface,
-          iconStyle: { marginRight: 10 },
-        }}
-        buttonStyle={{ backgroundColor: colors.primary }}
-        containerStyle={styles.btnContainer}
-      />
-      ) : null}\
+      {elements
+        ? elements.length > 0 && (
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "space-between",
+                marginHorizontal: "2%",
+              }}
+            >
+             
 
+              <Button
+                title="Confirmar compra"
+                onPress={async () => {
+                  setLoading(true);
+                  await cartToSale(userCart.uid_cart);
+                  await getElementsFetch();
+                  setLoading(false);
+                  Toast.show({
+                    text1: "Pedido realizado",
+                    text2:
+                      "verifica el estado de tu pedido en la sección de pedidos",
+                    type: "success",
+                    position: "bottom",
+                  });
+                }}
+                titleStyle={{
+                  fontSize: textSizes.Subtitle,
+                  fontWeight: "bold",
+                  color: colors.surface,
+                }}
+                icon={{
+                  type: "material-community",
+                  name: "cart-arrow-right",
+                  color: colors.surface,
+                  iconStyle: { marginRight: 10 },
+                }}
+                buttonStyle={{ backgroundColor: colors.primary }}
+                containerStyle={styles.btnContainer}
+              />
+            </View>
+          )
+        : null}
+      \
       <Loading visible={loading} text="Cargando..." />
     </View>
   );
