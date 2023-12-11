@@ -21,14 +21,16 @@ export default function Cart({ elementCarts, fetchDataOut }) {
         styles.productContainer,
         { backgroundColor: colors.surface, borderColor: colors.primary },
       ]}
-      onPress={() => {
-        navigation.navigate("productosCliente", {
-          screen: "producto",
-          params: { producto: elementCart.product },
-        });
-      }}
     >
-      <View style={styles.imageContainer}>
+      <View
+        style={styles.imageContainer}
+        onPress={() => {
+          navigation.navigate("productosCliente", {
+            screen: "producto",
+            params: { producto: elementCart.product },
+          });
+        }}
+      >
         <Image
           source={{ uri: loadFirstImage(elementCart.product) }}
           style={styles.image}
@@ -46,44 +48,38 @@ export default function Cart({ elementCarts, fetchDataOut }) {
         </Text>
 
         <View style={styles.preciosContainer}>
-
-        {elementCart.product.priceDiscount > 0 && (
-          <>
-            <Text
-            style={{
-              ...styles.priceText,
-              color: colors.primary,
-              fontSize: textSizes.Text,
-            }}
-          >
-            {"$ " + elementCart.product.priceDiscount + " MXN"}
-          </Text>
+          {(elementCart.product.priceDiscount > 0 && (
+            <>
+              <Text
+                style={{
+                  ...styles.priceText,
+                  color: colors.primary,
+                  fontSize: textSizes.Text,
+                }}
+              >
+                {"$ " + elementCart.product.priceDiscount + " MXN"}
+              </Text>
+              <Text
+                style={{
+                  ...styles.precioAnterior,
+                  color: colors.tertiary,
+                  fontSize: textSizes.Text,
+                }}
+              >
+                {"$ " + elementCart.product.price + " MXN"}
+              </Text>
+            </>
+          )) || (
             <Text
               style={{
-                ...styles.precioAnterior,
-                color: colors.tertiary,
+                ...styles.priceText,
+                color: colors.primary,
                 fontSize: textSizes.Text,
               }}
             >
               {"$ " + elementCart.product.price + " MXN"}
             </Text>
-            </>
-          ) || (
-            <Text
-            style={{
-              ...styles.priceText,
-              color: colors.primary,
-              fontSize: textSizes.Text,
-            }}
-          >
-            {"$ " + elementCart.product.price + " MXN"}
-          </Text>
           )}
-          
-
-          
-
-          
         </View>
         <Text
           style={{
