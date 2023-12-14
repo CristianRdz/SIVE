@@ -40,3 +40,24 @@ export const getProduct = async (id) => {
     console.error(error)
   }
 }
+
+///api/product/mostselled
+export const getMostSelledProducts = async () => {
+  try {
+    let data = await fetchClient(`/api/product/mostselled`, 'GET', null)
+    return data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+//less selled
+export const getLessSelledProducts = async () => {
+  try {
+    let data = await fetchClient(`/api/product/lessselled`, 'GET', null)
+    return data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
