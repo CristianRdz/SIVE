@@ -77,3 +77,15 @@ export async function resetPassword(values) {
       return false;
   }
 }
+
+export async function getUsersToday() {
+  try {
+      const date = new Date()
+      // format date to yyyy-mm-dd
+      const response = await fetchClient("/api/countUsers/date/ " + date.toISOString().slice(0, 10), "GET", null);
+      return response ? response : 0;
+  } catch (error) {
+      console.log(error);
+      return false;
+  }
+}
