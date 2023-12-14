@@ -94,8 +94,14 @@ export const getMesPorFecha = (fecha) => {
 
 export const getDiaSemanaPorFecha = (fecha) => {
     const date = new Date(fecha);
-    const dia = date.getDay();
-    return diasSemana[dia];
+    const dia = date.getDay()+1;
+    return dias[dia];
+}
+
+export const getAnioByFecha = (fecha) => {
+    const date = new Date(fecha);
+    const anio = date.getFullYear();
+    return anio;
 }
 
 // Función para extraer los años

@@ -90,6 +90,23 @@ export default function ProductosScreen() {
           getProductsFetch()
         }}
       />
+
+      <Button
+        icon={<Icon type='material-community' name='plus' color={colors.surface} style={styles.icon} />}
+        titleStyle={{ color: colors.surface, fontSize: textSizes.Subtitle }}
+        containerStyle={{
+          ...styles.btnContainer,
+          backgroundColor: colors.primary,
+        }}
+        buttonStyle={{ backgroundColor: colors.primary }}
+        title='Todos'
+        onPress={() => {
+          setLessSelled(false)
+          setMostSelled(false)
+          getProductsFetch()
+        }}
+      />
+
       <Title title={'Lista de productos'} />
 
       <ScrollView
